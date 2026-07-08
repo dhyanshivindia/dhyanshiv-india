@@ -1,0 +1,1 @@
+{"version":1,"functions":{"/api/services":{},"/api/auth/[...nextauth]":{},"/api/checkout":{},"/services/[slug]":{},"/blog/[slug]":{},"/api/admin/service":{},"/blog":{}}}

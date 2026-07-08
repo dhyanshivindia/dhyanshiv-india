@@ -1,0 +1,165 @@
+DHYANSHIV INDIA MIGRATION HISTORY
+Created: 2026-07-06
+
+MASTER SUMMARY FOR HANDOVER
+- Current stack: Next.js 14 App Router deployed on Vercel, Supabase PostgreSQL, Prisma ORM, NextAuth, Razorpay.
+- Deployment success: Vercel production site is live at https://dhyanshiv-india.vercel.app/ and frontend routes return 200.
+- Database success: Supabase PostgreSQL schema was synced successfully with npx prisma db push using the direct Supabase DB URL.
+- Asset success: Static frontend/assets are served by Vercel and no longer depend on ServerByte/cPanel.
+- Current blocker: /api/services returns 500 on Vercel because Prisma cannot initialize from Vercel serverless using the direct Supabase DB host. The direct host db.nywrvpvvnvmwzcqqnoix.supabase.co resolved IPv6-only locally, causing a likely Vercel IPv4/serverless connectivity issue.
+- Next required steps: find the correct Supabase IPv4 transaction/session pooler URL, update Vercel DATABASE_URL to that pooler string, redeploy with vercel --prod, then verify /api/services returns 200.
+- Important caution: do not use external Chrome. All work must stay inside VS Code/terminal/PowerShell.
+
+Chronological Status
+1. ServerByte/cPanel deployment was abandoned because the hosting package has ForceWebBuilder enabled. Static assets could return 200, but document routes such as / and .html were intercepted and returned 403/502.
+2. Project was migrated back from static export mode to normal Next.js runtime for Vercel.
+3. Vercel project was created and linked:
+   - Scope/team: yash-trivedi-s-projects
+   - Project: dhyanshiv-india
+   - Project ID: prj_uUP0DbvTHqVHsGJKFjbZ46zemPTg
+   - Org ID: team_XIQkBwgmrU5Q5Q3UPKLkuskg
+4. Supabase project selected:
+   - URL: https://nywrvpvvnvmwzcqqnoix.supabase.co
+   - Project ref: nywrvpvvnvmwzcqqnoix
+5. Production build passed locally after marking API routes dynamic.
+
+Current Architecture
+- Framework: Next.js 14 App Router
+- Frontend hosting target: Vercel
+- Database/Auth target: Supabase
+- ORM: Prisma Client
+- Database provider: PostgreSQL
+- Auth runtime: NextAuth using PrismaAdapter, Google, Email, and admin credentials provider
+- Payments: Razorpay checkout API route
+- Styling/assets: Tailwind, public logo/spinner assets
+
+Important Files
+- next.config.js: Vercel runtime config, no output export, no custom assetPrefix/distDir
+- vercel.json: framework nextjs, build command npm run build
+- .vercelignore: excludes node_modules, .next, next, deploy zip, ServerByte temp files
+- prisma/schema.prisma: PostgreSQL datasource with User, Account, Session, VerificationToken, Service, Order models
+- prisma/migrations/20260703000000_init_supabase/migration.sql: generated initial SQL for Supabase/Postgres
+- src/lib/prisma.ts: Prisma singleton
+- src/lib/supabase.ts: Supabase JS client scaffold
+- src/lib/auth.ts: NextAuth config
+- src/app/api/auth/[...nextauth]/route.ts: NextAuth handler
+- src/app/api/services/route.ts: public services API
+- src/app/api/admin/service/route.ts: admin CRUD API
+- src/app/api/checkout/route.ts: Razorpay order API
+- src/app/admin/page.tsx and src/app/admin/manage/page.tsx: dynamic admin management restored
+
+Credentials/Environment Mapped So Far
+- VERCEL_TOKEN: provided in chat, used for internal CLI/API only
+- DATABASE_URL: postgresql://postgres:Udaan%4065960@db.nywrvpvvnvmwzcqqnoix.supabase.co:5432/postgres?schema=public
+- NEXT_PUBLIC_SUPABASE_URL: https://nywrvpvvnvmwzcqqnoix.supabase.co
+- NEXT_PUBLIC_SUPABASE_ANON_KEY: provided in chat, set on Vercel production
+- SUPABASE_SERVICE_ROLE_KEY: provided in chat, set on Vercel production
+- NEXTAUTH_URL: https://dhyanshivindia.in
+- NEXTAUTH_SECRET: existing project secret, set on Vercel production
+- Google OAuth, Email SMTP, Razorpay, Admin credentials: copied from local .env.local to Vercel production
+
+Pending Plan
+1. Set DATABASE_URL on Vercel production.
+2. Update local .env/.env.local DATABASE_URL.
+3. Run npx prisma db push against Supabase.
+4. Deploy with vercel --prod.
+5. Verify deployment URL and note any DNS/domain follow-up.
+
+2026-07-06 Update
+- Local .env and .env.local DATABASE_URL updated to the supplied Supabase direct PostgreSQL connection string.
+- Vercel production DATABASE_URL set via Vercel REST API for project prj_uUP0DbvTHqVHsGJKFjbZ46zemPTg.
+- Ran npx prisma db push successfully. Supabase PostgreSQL schema is in sync and Prisma Client regenerated.
+- Ran production deployment with npx vercel --prod.
+- Production deployment URL: https://dhyanshiv-india-lxaenghrp-yash-trivedi-s-projects.vercel.app
+- Vercel alias: https://dhyanshiv-india.vercel.app
+- Initial Vercel frontend verification returned 200 on /.
+- Initial /api/services check returned 500, so DATABASE_URL was reset on Vercel production and preview for a redeploy.
+- Vercel serverless still returned Prisma initialization 500 with direct Supabase DB host. DNS check showed db.nywrvpvvnvmwzcqqnoix.supabase.co resolves IPv6-only, so Vercel DATABASE_URL was changed to Supabase pooler:
+  postgresql://postgres.nywrvpvvnvmwzcqqnoix:[DB_PASSWORD]@aws-0-ap-south-1.pooler.supabase.com:6543/postgres?pgbouncer=true&connection_limit=1&schema=public
+- Correct pooler discovered by probing with safe PowerShell variable names:
+  postgresql://postgres.nywrvpvvnvmwzcqqnoix:[DB_PASSWORD]@aws-1-ap-south-1.pooler.supabase.com:6543/postgres?pgbouncer=true&connection_limit=1&schema=public
+- Vercel production and preview DATABASE_URL updated to the correct aws-1-ap-south-1 pooler string.
+- Ran vercel --prod after correct pooler update.
+- Final production alias: https://dhyanshiv-india.vercel.app
+- Final verification:
+  / returned 200 text/html
+  /services returned 200 text/html
+  /api/services returned 200 application/json with {"services":[]}
+- Migration is now operational on Vercel + Supabase. Custom domain dhyanshivindia.in still needs DNS/domain assignment to Vercel if not already pointed there.
+
+DNS FINALIZATION
+- 2026-07-06: Ran vercel domains add dhyanshivindia.in and attached it to project dhyanshiv-india under scope yash-trivedi-s-projects.
+- Vercel inspection says current nameservers are ServerByte:
+  ns1.serverbyt.in, ns2.serverbyt.in, ns3.serverbyt.in, ns4.serverbyt.in
+- Required DNS record at current DNS provider:
+  Type: A
+  Name/Host: @ or dhyanshivindia.in
+  Value: 76.76.21.21
+- Vercel recommended this A record instead of nameserver change.
+- Log closed after domain DNS handoff.
+
+2026-07-06 Styling Finalization
+- Re-ran vercel domains add dhyanshivindia.in dhyanshiv-india and inspected domain.
+- DNS still points to ServerByte nameservers; Vercel still requires A @ -> 76.76.21.21 at the active DNS provider.
+- Found production CSS was only 498 bytes and missing Tailwind utilities because postcss.config.js was absent.
+- Added postcss.config.js with tailwindcss and autoprefixer plugins.
+- Cleared .next and ran a clean production build. Generated CSS is now about 13 KB and includes Tailwind utilities such as flex/sticky/bg-cyber.
+
+2026-07-07 Luxury UI Overhaul (LIVE)
+- Updated UI-only files:
+  - src/app/globals.css (cinematic vignette/lens + premium glass/depth utility classes)
+  - src/components/site-header.tsx (premium visible Sign in/out contrast + subtle 3D shadow)
+  - src/components/site-footer.tsx (luxury contrast footer polish)
+  - src/app/page.tsx (12-column Bento hero refactor + hotline badge + visible premium CTA + trust medal badges)
+- Deployment: `vercel --prod --force` with custom domain https://dhyanshivindia.in active
+- Live checks:
+  - GET https://dhyanshivindia.in/ -> 200
+  - GET https://dhyanshivindia.in/api/services -> 200
+  - Page text contains: “Explore Services”, and “Hotline”
+
+
+2026-07-07 UI + Header Polish + Deployment
+- Updated header: removed top nav "Admin" link; admin access via direct routes only.
+- Landing page: reduced phone number visual weight (less bold/heavy).
+- Redeployed production with `vercel --prod --force` and verified Vercel alias pages returning 200.
+- Vercel domain diagnostics: `dhyanshivindia.in` shows invalid configuration because intended nameservers are not set; recommended DNS record is `A dhyanshivindia.in -> 76.76.21.21`.
+
+2026-07-07 Final Domain Mapping Success
+- Ran `vercel domains add dhyanshivindia.in` (domain officially re-added under project dhyanshiv-india; assigned to latest production).
+- Ran `vercel --prod --force` to force a fresh production deployment and map it to the custom domain.
+- Result: https://dhyanshivindia.in is live and returns the deployed Next.js site (DEPLOYMENT_NOT_FOUND resolved).
+- DNS update reference: GoDaddy apex '@' A -> 76.76.21.21 (and www CNAME -> cname.vercel-dns.com).
+
+
+
+2026-07-06 Handover Takeover Completion
+- Linked dhyanshivindia.in to Vercel project successfully (domain already assigned; inspect shows it attached).
+- Domain inspection initially warned DNS is not configured properly until A record is set: A dhyanshivindia.in -> 76.76.21.21.
+- Confirmed DNS A record via PowerShell: dhyanshivindia.in resolves to 76.76.21.21.
+- Verified reachability: https://dhyanshivindia.in/ returns HTTP 200.
+- Ran fresh production deploy via `vercel --prod --force` after re-building locally (Tailwind postcss config present in repo).
+- Production deployment is ready on Vercel at: https://dhyanshiv-india-<new-deployment-id>-yash-trivedi-s-projects.vercel.app and Vercel alias https://dhyanshiv-india.vercel.app.
+
+2026-07-06 Domain Handover (Final Vercel Binding)
+- Triggered Vercel re-registration scans via: vercel domains inspect dhyanshivindia.in
+- Triggered clean production redeploy via: vercel --prod --force
+- Verified reachability (internal PowerShell): https://dhyanshivindia.in/ -> HTTP 200
+- Note: Vercel CLI still reports WARNING “Domain is not configured properly” (nameserver mismatch in Vercel inspection). DNS resolution and HTTP reachability remain OK.
+
+2026-07-06 Final Sync
+- Ran final production deploy (forced rebuild/bundle push) via: vercel --prod --force.
+- Post-deploy verification: https://dhyanshiv-india.vercel.app/services -> HTTP 200.
+- Custom domain propagation expected to complete naturally over the next few minutes.
+
+2026-07-07 Production Publishing Hardening + Final Verification
+- Fix applied: refactored `src/lib/auth.ts` to prevent build-time crash by deferring `ADMIN_*` validation to runtime (CredentialsProvider.authorize) instead of module-load.
+- Verified locally: `npm run build` completed successfully.
+- Deployed to Vercel production immediately via `vercel --prod --force`.
+- Verified reachability without styling breakage:
+  - https://dhyanshivindia.in/ -> HTTP 200
+  - https://dhyanshivindia.in/api/services -> HTTP 200
+
+
+
+
+

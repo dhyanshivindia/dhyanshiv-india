@@ -1,0 +1,87 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
+  role          String    @default("user")
+  emailVerified DateTime?
+  image         String?
+  accounts      Account[]
+  sessions      Session[]
+  orders        Order[]
+}
+
+model Account {
+  id                 String  @id @default(cuid())
+  userId             String
+  type               String
+  provider           String
+  providerAccountId  String
+  refresh_token      String?
+  access_token       String?
+  expires_at         Int?
+  token_type         String?
+  scope              String?
+  id_token           String?
+  session_state      String?
+  oauth_token_secret String?
+  oauth_token        String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@id([identifier, token])
+}
+
+model Service {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  badgeText   String
+  createdAt   DateTime @default(now())
+
+  // Backward-compatible fields (used by existing orders / admin code)
+  itemName    String?  @map("itemName")
+  hsnSac      String?  @map("hsnSac")
+  rate        Float?   @map("rate")
+  gst         Float?   @map("gst")
+  status      String?  @default("Active")
+
+  orders      Order[]
+}
+
+
+model Order {
+  id              String   @id @default(cuid())
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId          String
+  service         Service  @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+  serviceId       String
+  razorpayOrderId String   @unique
+  paymentStatus   String   @default("Pending")
+  createdAt       DateTime @default(now())
+}

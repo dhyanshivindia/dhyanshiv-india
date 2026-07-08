@@ -1,0 +1,60 @@
+﻿@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+  --space-section: 4rem;
+  --space-container: 1.5rem;
+}
+
+[data-layout-mode="compact"] {
+  --space-section: 2.5rem;
+  --space-container: 1rem;
+}
+
+[data-layout-mode="immersive"] {
+  --space-section: 6rem;
+  --space-container: 2rem;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+.page-shell {
+  max-width: 7xl;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+@media (min-width: 640px) {
+  .page-shell {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .page-shell {
+    padding-left: 3rem;
+    padding-right: 3rem;
+  }
+}

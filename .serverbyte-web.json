@@ -1,0 +1,72 @@
+{
+    "ftpUsers":  [
+                     {
+                         "Id":  4748495,
+                         "Username":  "dhyanshivindia.in"
+                     }
+                 ],
+    "hasBackups":  true,
+    "hasParent":  false,
+    "id":  3536309,
+    "info":  {
+                 "flags":  [
+                               "ForceSSL",
+                               "ForceWebBuilder"
+                           ],
+                 "ftpserver":  "ftp.gb.stackcp.com",
+                 "ip4Address":  "185.151.30.170",
+                 "ip6Address":  "2a07:7800::170",
+                 "statsUrls":  {
+                                   "AWStats":  "https://stats.stackcp.com/stats/sso.php?d=fSrA74KPz7V5TlVucsgjrlIzMHlTeE0vZjBNVlQ5K0FodUtyQ1o0TUtMRjN5NlJXTnNOcEJwVHlXcms5dk1LRlZVUmphZUs5TWRuNzJ5NlYrQnd2OVhORTVHenRqWlNGZnhIMmpUK25IbExsd1VOYU1wcTlYWkZieHJ5dFhrVEtqRlJrVXFQd3NCVVllMkhLek1XWGJoS1M0aUxDKzdUVjZxOW4wZz09",
+                                   "Webalizer":  "https://stats.stackcp.com/stats/sso.php?d=zn37PLy2ZSeoyo1L5VL23XNkZzVwTXlZZmNIRUp0c3hhR3ZEYW9Na0tmY2pOQm9WQTltMzRzQWVBSnkxUnlEcThRQ2NRbkRYVzRjMVZBbmlsWFdBQjM1ZzB5Q3ZONG5INEN4TjFqVkEya1cycVRRelhuRzNCbGdYa00rcDc0WHlUdVh2V2QxUWRNaEkvcWpJMzNRaTdDRDVLbU9Hck83d2FQRER1UT09"
+                               },
+                 "temporaryUrls":  {
+                                       "dhyanshivindia.in":  "dhyanshivindia-in.stackstaging.com",
+                                       "expertgujarat.in":  "expertgujarat-in.stackstaging.com"
+                                   },
+                 "usage":  {
+                               "MySqlDatabases":  1,
+                               "ServerAliases":  2,
+                               "ServerAliasCertificates":  {
+                                                               "letsencrypt/standard":  [
+                                                                                            "dhyanshivindia.in",
+                                                                                            "expertgujarat.in"
+                                                                                        ]
+                                                           }
+                           },
+                 "webserver":  "(any)",
+                 "zone":  "London, UK (LHR)",
+                 "homeDirectory":  "/home/sites/14a/f/fd449a1a47/",
+                 "ftpProtocol":  "ftp"
+             },
+    "label":  null,
+    "name":  "dhyanshivindia.in",
+    "names":  [
+                  "dhyanshivindia.in",
+                  "expertgujarat.in"
+              ],
+    "overrideLimits":  [
+
+                       ],
+    "packageTypeName":  "Blaze",
+    "platform":  "linux",
+    "productSpec":  null,
+    "setupComplete":  true,
+    "typeRef":  167452,
+    "usage":  {
+                  "MySqlDatabases":  1,
+                  "ServerAliases":  2,
+                  "ServerAliasCertificates":  {
+                                                  "letsencrypt/standard":  [
+                                                                               "dhyanshivindia.in",
+                                                                               "expertgujarat.in"
+                                                                           ]
+                                              }
+              },
+    "ftp_credentials":  [
+                            {
+                                "password":  "Udaan@6596",
+                                "username":  "dhyanshivindia.in"
+                            }
+                        ]
+}
