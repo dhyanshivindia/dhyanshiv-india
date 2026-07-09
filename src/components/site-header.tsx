@@ -4,13 +4,10 @@ import Link from 'next/link'
 import ThemeToggle from '@/components/theme-toggle'
 
 export default function SiteHeader() {
-  // Public website navigation - removed auth and unnecessary pages
+  // Public website navigation - cleaned up for clarity
   const navLinks = [
     { label: 'Services', href: '/services' },
-    { label: 'Privacy', href: '/privacy-policy' },
-    { label: 'Terms', href: '/terms-of-service' },
-    { label: 'Refund', href: '/refund-policy' },
-    { label: 'Copyright', href: '/copyright' },
+    { label: 'Why Trust Us', href: '/why-trust-us' },
   ]
 
   return (
