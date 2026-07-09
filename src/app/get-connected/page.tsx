@@ -218,7 +218,7 @@ export default function GetConnected() {
 
             {/* Instagram */}
             <a
-              href="https://instagram.com/dhyanshiv_india"
+              href="https://instagram.com/dhyanshivindia.in"
               target="_blank"
               rel="noopener noreferrer"
               className="group flex flex-col items-center justify-center rounded-2xl border border-zinc-200 bg-white p-6 hover:border-pink-500 hover:shadow-xl hover:shadow-pink-500/10 transition-all dark:border-white/10 dark:bg-white/5 dark:hover:border-pink-400 hover:scale-105"
