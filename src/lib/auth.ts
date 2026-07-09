@@ -27,6 +27,7 @@ export const authOptions: NextAuthOptions = {
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID || '',
       clientSecret: process.env.GOOGLE_CLIENT_SECRET || '',
+      allowDangerousEmailAccountLinking: true,
     }),
     EmailProvider({
       server: process.env.EMAIL_SERVER_SMTP || '',
@@ -54,9 +55,9 @@ export const authOptions: NextAuthOptions = {
       },
     }),
   ],
+  pages: { signIn: '/signin' },
   session: { strategy: 'jwt' },
   jwt: { secret: process.env.NEXTAUTH_SECRET },
-  pages: { signIn: '/signin' },
   callbacks: {
     async session({ session, token }) {
       if (token?.role && session.user) {

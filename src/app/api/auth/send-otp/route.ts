@@ -99,7 +99,17 @@ export async function POST(req: NextRequest) {
       message: 'OTP sent to email',
     })
   } catch (error) {
-    console.error('Send OTP error:', error)
-    return NextResponse.json({ error: 'Failed to send OTP' }, { status: 500 })
+    const errorMessage = error instanceof Error ? error.message : String(error)
+    console.error('Send OTP error:', {
+      error: errorMessage,
+      stack: error instanceof Error ? error.stack : undefined,
+    })
+    return NextResponse.json(
+      { 
+        error: 'Failed to send OTP',
+        details: process.env.NODE_ENV === 'development' ? errorMessage : undefined
+      }, 
+      { status: 500 }
+    )
   }
 }
