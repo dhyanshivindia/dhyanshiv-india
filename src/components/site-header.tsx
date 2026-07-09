@@ -17,16 +17,15 @@ export default function SiteHeader() {
     <header className="sticky top-0 z-40 border-b border-zinc-200/50 bg-white/70 backdrop-blur-xl dark:border-white/10 dark:bg-zinc-950/55">
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-6 py-4 sm:px-8 lg:px-12">
         {/* Logo */}
-        <Link href="/" className="flex shrink-0 items-center gap-3">
+        <Link href="/" className="flex shrink-0 items-center">
           <Image
             src="/logo.png"
             alt="DHYANSHIV INDIA logo"
             width={160}
             height={50}
-            className="h-auto w-[120px] sm:w-[160px] object-contain"
+            className="h-auto w-[140px] sm:w-[180px] object-contain"
             priority
           />
-          <span className="text-lg font-semibold tracking-tight text-slate-900 dark:text-white">DHYANSHIV INDIA</span>
         </Link>
 
         {/* Navigation and Theme */}

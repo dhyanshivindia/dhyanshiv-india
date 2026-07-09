@@ -10,47 +10,107 @@ export default function RefundPolicyPage() {
           </p>
           <h1 className="mt-4 text-3xl sm:text-4xl font-semibold tracking-tight">Refund Policy</h1>
           <p className="mt-4 text-slate-600 dark:text-slate-200">
-            At DHYANSHIV INDIA PRIVATE LIMITED, we strive to provide exceptional IT and compliance services. This Refund & Cancellation Policy explains how we
-            handle requests for cancellations, refunds, and payment reversals.
+            Last updated: July 2026. At DHYANSHIV INDIA PRIVATE LIMITED, we strive for customer satisfaction. This policy outlines our refund and cancellation procedures for services purchased through our platform.
           </p>
         </header>
 
         <section className="mt-6 grid gap-5">
           <div className="rounded-2xl bg-white/90 dark:bg-zinc-900/90 shadow-xl border border-zinc-200/50 p-5 sm:p-8 md:p-12">
-            <h2 className="text-2xl font-semibold">Service eligibility</h2>
+            <h2 className="text-2xl font-semibold">1. Service Eligibility</h2>
             <p className="mt-3 text-slate-700 dark:text-slate-300">
-              Services purchased through our website are subject to review and approval. Once payment is captured through Razorpay, service delivery begins
-              immediately unless otherwise agreed.
+              All services purchased through our platform are subject to:
+            </p>
+            <ul className="mt-2 space-y-2 text-slate-700 dark:text-slate-300">
+              <li>• Initial review and approval by our team</li>
+              <li>• Payment verification through Razorpay</li>
+              <li>• Verification of customer eligibility and jurisdiction</li>
+              <li>• Compliance with our Terms of Service</li>
+            </ul>
+            <p className="mt-3 text-slate-700 dark:text-slate-300">
+              Once payment is captured and verified, service delivery begins immediately unless otherwise agreed in writing.
             </p>
           </div>
 
           <div className="rounded-2xl bg-white/90 dark:bg-zinc-900/90 shadow-xl border border-zinc-200/50 p-5 sm:p-8 md:p-12">
-            <h2 className="text-2xl font-semibold">Cancellation requests</h2>
+            <h2 className="text-2xl font-semibold">2. Cancellation Process</h2>
             <p className="mt-3 text-slate-700 dark:text-slate-300">
-              Cancellation requests must be submitted in writing to support@dhyanshivindia.in. We evaluate each request based on service stage, work completed,
-              and contractual obligations.
+              <strong>How to Request:</strong> Submit cancellation requests in writing (email) to support@dhyanshivindia.in with:
+            </p>
+            <ul className="mt-2 space-y-2 text-slate-700 dark:text-slate-300">
+              <li>• Your account email and order ID</li>
+              <li>• Reason for cancellation</li>
+              <li>• Any supporting documentation</li>
+            </ul>
+            <p className="mt-3 text-slate-700 dark:text-slate-300">
+              <strong>Response Time:</strong> We review cancellation requests within 5-7 business days.
             </p>
           </div>
 
           <div className="rounded-2xl bg-white/90 dark:bg-zinc-900/90 shadow-xl border border-zinc-200/50 p-5 sm:p-8 md:p-12">
-            <h2 className="text-2xl font-semibold">Refund policy</h2>
+            <h2 className="text-2xl font-semibold">3. Refund Eligibility & Timeline</h2>
             <p className="mt-3 text-slate-700 dark:text-slate-300">
-              Refunds are considered on a case-by-case basis. If approved, refunds are issued in accordance with Razorpay settlement timelines and the specific
-              service agreement.
+              <strong>Eligible for Full Refund:</strong>
+            </p>
+            <ul className="mt-2 space-y-2 text-slate-700 dark:text-slate-300">
+              <li>• Cancellation requested within 24 hours of purchase (if service not yet started)</li>
+              <li>• Technical failure or service unavailability on our end</li>
+              <li>• Duplicate/erroneous charges</li>
+            </ul>
+            <p className="mt-3 text-slate-700 dark:text-slate-300">
+              <strong>Partial Refund (Case-by-case):</strong>
+            </p>
+            <ul className="mt-2 space-y-2 text-slate-700 dark:text-slate-300">
+              <li>• Service partially delivered or customization work started</li>
+              <li>• Administrative or setup costs incurred</li>
+              <li>• Non-recoverable resources consumed</li>
+            </ul>
+            <p className="mt-3 text-slate-700 dark:text-slate-300">
+              <strong>Not Eligible for Refund:</strong>
+            </p>
+            <ul className="mt-2 space-y-2 text-slate-700 dark:text-slate-300">
+              <li>• Service fully delivered and accepted by customer</li>
+              <li>• Cancellation requested after service commencement</li>
+              <li>• Non-refundable services clearly marked at purchase</li>
+              <li>• Customer changes mind after delivery</li>
+            </ul>
+          </div>
+
+          <div className="rounded-2xl bg-white/90 dark:bg-zinc-900/90 shadow-xl border border-zinc-200/50 p-5 sm:p-8 md:p-12">
+            <h2 className="text-2xl font-semibold">4. Refund Processing</h2>
+            <p className="mt-3 text-slate-700 dark:text-slate-300">
+              <strong>Approval & Issuance:</strong> If refund is approved, we initiate the reversal through Razorpay within 3-5 business days.
+            </p>
+            <p className="mt-2 text-slate-700 dark:text-slate-300">
+              <strong>Settlement Timeline:</strong> The refund will appear in your original payment method within 5-10 business days (varies by bank/payment provider).
+            </p>
+            <p className="mt-2 text-slate-700 dark:text-slate-300">
+              <strong>Processing Fees:</strong> Razorpay processing fees are non-refundable, per Razorpay's standard policy.
             </p>
           </div>
 
           <div className="rounded-2xl bg-white/90 dark:bg-zinc-900/90 shadow-xl border border-zinc-200/50 p-5 sm:p-8 md:p-12">
-            <h2 className="text-2xl font-semibold">Service delivery & exceptions</h2>
+            <h2 className="text-2xl font-semibold">5. Special Cases & Exceptions</h2>
             <p className="mt-3 text-slate-700 dark:text-slate-300">
-              Refunds are not guaranteed. Services that have already begun or require non-recoverable preparation may be partially or fully non-refundable.
+              <strong>Technical Issues:</strong> If service is unavailable due to our technical failure, we offer full refund or service credit.
+            </p>
+            <p className="mt-2 text-slate-700 dark:text-slate-300">
+              <strong>Fraudulent Transactions:</strong> Fraudulent or unauthorized charges are refunded in full after investigation.
+            </p>
+            <p className="mt-2 text-slate-700 dark:text-slate-300">
+              <strong>Dispute Resolution:</strong> Disputes not resolved amicably may be escalated through Razorpay's dispute resolution process.
             </p>
           </div>
 
           <div className="rounded-2xl bg-white/90 dark:bg-zinc-900/90 shadow-xl border border-zinc-200/50 p-5 sm:p-8 md:p-12">
-            <h2 className="text-2xl font-semibold">Contact information</h2>
+            <h2 className="text-2xl font-semibold">6. Contact & Support</h2>
             <p className="mt-3 text-slate-700 dark:text-slate-300">
-              Questions about purchases, cancellations, or refunds can be sent to support@dhyanshivindia.in. We respond promptly and professionally.
+              <strong>Email:</strong> support@dhyanshivindia.in
+            </p>
+            <p className="mt-2 text-slate-700 dark:text-slate-300">
+              <strong>Response Time:</strong> We aim to respond within 24-48 business hours.
+            </p>
+            <p className="mt-2 text-slate-700 dark:text-slate-300">
+              Questions about your purchase, refund status, or payment issues can be addressed through our support team.
             </p>
           </div>
         </section>
@@ -58,5 +118,3 @@ export default function RefundPolicyPage() {
     </main>
   )
 }
-
-

@@ -6,42 +6,109 @@ export default function TermsOfServicePage() {
       <div className="mx-auto w-full max-w-4xl">
         <header className="rounded-[28px] border border-zinc-200/50 bg-white/70 p-6 sm:p-8 shadow-xl backdrop-blur-md dark:border-zinc-800/60 dark:bg-zinc-900/60">
           <p className="text-xs font-semibold uppercase tracking-[0.35em] text-cyan-700 dark:text-cyan-300">
-            Corporate Terms
+            Legal Agreement
           </p>
           <h1 className="mt-4 text-3xl sm:text-4xl font-semibold tracking-tight">Terms of Service</h1>
           <p className="mt-4 text-slate-600 dark:text-slate-200">
-            Welcome to DHYANSHIV INDIA PRIVATE LIMITED. By using our website and services, you agree to these terms and conditions.
+            Last updated: July 2026. These Terms of Service ("Terms") govern your use of DHYANSHIV INDIA PRIVATE LIMITED's website and services. By accessing or using our services, you agree to be bound by these Terms.
           </p>
         </header>
 
         <section className="mt-6 grid gap-5">
           <div className="rounded-2xl bg-white/90 dark:bg-zinc-900/90 shadow-xl border border-zinc-200/50 p-5 sm:p-8 md:p-12">
-            <h2 className="text-2xl font-semibold">Scope of services</h2>
+            <h2 className="text-2xl font-semibold">1. Acceptance of Terms</h2>
             <p className="mt-3 text-slate-700 dark:text-slate-300">
-              We provide digital transformation, compliance-ready services, and secure checkout functionality. All offerings are subject to availability and
-              corporate review.
+              By using this website or purchasing our services, you acknowledge that you have read, understood, and agree to be bound by these Terms. If you do not agree, please discontinue use immediately.
             </p>
           </div>
 
           <div className="rounded-2xl bg-white/90 dark:bg-zinc-900/90 shadow-xl border border-zinc-200/50 p-5 sm:p-8 md:p-12">
-            <h2 className="text-2xl font-semibold">User responsibilities</h2>
+            <h2 className="text-2xl font-semibold">2. Service Description</h2>
             <p className="mt-3 text-slate-700 dark:text-slate-300">
-              Users must provide accurate information for authentication and billing. Unauthorized use of admin controls is prohibited.
+              We provide: (a) Compliance automation services, (b) Corporate tech delivery, (c) Automated payment processing, (d) Security and workflow solutions. All services are subject to availability and may be modified or discontinued at our discretion with reasonable notice.
             </p>
           </div>
 
           <div className="rounded-2xl bg-white/90 dark:bg-zinc-900/90 shadow-xl border border-zinc-200/50 p-5 sm:p-8 md:p-12">
-            <h2 className="text-2xl font-semibold">Payment terms</h2>
+            <h2 className="text-2xl font-semibold">3. User Eligibility & Responsibilities</h2>
             <p className="mt-3 text-slate-700 dark:text-slate-300">
-              Payments are processed via Razorpay. Once payment is captured, the service delivery process begins. Refund terms are subject to separate agreements.
+              <strong>You must:</strong>
+            </p>
+            <ul className="mt-2 space-y-2 text-slate-700 dark:text-slate-300">
+              <li>• Be at least 18 years old or have parental consent</li>
+              <li>• Provide accurate, complete information during registration</li>
+              <li>• Maintain account security and not share credentials</li>
+              <li>• Use services only for lawful purposes</li>
+              <li>• Not attempt unauthorized access to admin controls or restricted areas</li>
+              <li>• Comply with all applicable laws and regulations</li>
+            </ul>
+          </div>
+
+          <div className="rounded-2xl bg-white/90 dark:bg-zinc-900/90 shadow-xl border border-zinc-200/50 p-5 sm:p-8 md:p-12">
+            <h2 className="text-2xl font-semibold">4. Payment Terms & Billing</h2>
+            <p className="mt-3 text-slate-700 dark:text-slate-300">
+              <strong>Payment Processing:</strong> All transactions are processed through Razorpay. By initiating a transaction, you authorize us to process payment using the method you provide.
+            </p>
+            <p className="mt-2 text-slate-700 dark:text-slate-300">
+              <strong>Pricing:</strong> Prices are subject to change with notice. Taxes and fees (if applicable) are calculated at checkout.
+            </p>
+            <p className="mt-2 text-slate-700 dark:text-slate-300">
+              <strong>Service Commencement:</strong> Upon payment capture, service delivery begins immediately unless otherwise agreed in writing.
             </p>
           </div>
 
           <div className="rounded-2xl bg-white/90 dark:bg-zinc-900/90 shadow-xl border border-zinc-200/50 p-5 sm:p-8 md:p-12">
-            <h2 className="text-2xl font-semibold">Limitation of liability</h2>
+            <h2 className="text-2xl font-semibold">5. Intellectual Property</h2>
             <p className="mt-3 text-slate-700 dark:text-slate-300">
-              DHYANSHIV INDIA PRIVATE LIMITED is not liable for indirect damages or losses resulting from use of the website. Our liability is limited to the value
-              of the service purchased.
+              All content, design, code, trademarks, and materials on this website are owned by or licensed to DHYANSHIV INDIA PRIVATE LIMITED. You may not reproduce, distribute, or modify any content without explicit written permission.
+            </p>
+          </div>
+
+          <div className="rounded-2xl bg-white/90 dark:bg-zinc-900/90 shadow-xl border border-zinc-200/50 p-5 sm:p-8 md:p-12">
+            <h2 className="text-2xl font-semibold">6. Limitation of Liability</h2>
+            <p className="mt-3 text-slate-700 dark:text-slate-300">
+              TO THE FULLEST EXTENT PERMITTED BY LAW:
+            </p>
+            <ul className="mt-2 space-y-2 text-slate-700 dark:text-slate-300">
+              <li>• Our total liability is limited to the amount you paid for the service</li>
+              <li>• We are not liable for indirect, incidental, or consequential damages</li>
+              <li>• We are not liable for lost profits, data loss, or business interruption</li>
+              <li>• We provide services "as-is" without warranties</li>
+            </ul>
+          </div>
+
+          <div className="rounded-2xl bg-white/90 dark:bg-zinc-900/90 shadow-xl border border-zinc-200/50 p-5 sm:p-8 md:p-12">
+            <h2 className="text-2xl font-semibold">7. Disclaimer of Warranties</h2>
+            <p className="mt-3 text-slate-700 dark:text-slate-300">
+              SERVICES ARE PROVIDED "AS-IS" AND "AS-AVAILABLE" WITHOUT ANY EXPRESS OR IMPLIED WARRANTIES. WE DO NOT WARRANT THAT SERVICES WILL BE UNINTERRUPTED, ERROR-FREE, OR FREE FROM VIRUSES.
+            </p>
+          </div>
+
+          <div className="rounded-2xl bg-white/90 dark:bg-zinc-900/90 shadow-xl border border-zinc-200/50 p-5 sm:p-8 md:p-12">
+            <h2 className="text-2xl font-semibold">8. Prohibited Conduct</h2>
+            <p className="mt-3 text-slate-700 dark:text-slate-300">
+              You may not: (a) Hack or attempt unauthorized access; (b) Upload malware or harmful code; (c) Use services for illegal activities; (d) Reverse-engineer or decompile our software; (e) Spam or harass; (f) Violate intellectual property rights.
+            </p>
+          </div>
+
+          <div className="rounded-2xl bg-white/90 dark:bg-zinc-900/90 shadow-xl border border-zinc-200/50 p-5 sm:p-8 md:p-12">
+            <h2 className="text-2xl font-semibold">9. Termination</h2>
+            <p className="mt-3 text-slate-700 dark:text-slate-300">
+              We may suspend or terminate your account immediately if you violate these Terms or engage in illegal activity. Upon termination, your right to use services ceases, and data may be deleted in accordance with our retention policy.
+            </p>
+          </div>
+
+          <div className="rounded-2xl bg-white/90 dark:bg-zinc-900/90 shadow-xl border border-zinc-200/50 p-5 sm:p-8 md:p-12">
+            <h2 className="text-2xl font-semibold">10. Governing Law</h2>
+            <p className="mt-3 text-slate-700 dark:text-slate-300">
+              These Terms are governed by the laws of India. Any disputes shall be subject to the exclusive jurisdiction of courts in India.
+            </p>
+          </div>
+
+          <div className="rounded-2xl bg-white/90 dark:bg-zinc-900/90 shadow-xl border border-zinc-200/50 p-5 sm:p-8 md:p-12">
+            <h2 className="text-2xl font-semibold">11. Contact for Legal Inquiries</h2>
+            <p className="mt-3 text-slate-700 dark:text-slate-300">
+              Email: support@dhyanshivindia.in
             </p>
           </div>
         </section>
