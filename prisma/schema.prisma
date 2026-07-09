@@ -12,11 +12,17 @@ model User {
   name          String?
   email         String    @unique
   role          String    @default("user")
-  tier          String    @default("normal")  // "normal" | "pro" | "premium"
+  tier          String    @default("normal")
   emailVerified DateTime?
   image         String?
   companyName   String?
   phone         String?
+  fullName      String?
+  dob           DateTime?
+  aadhaarNumber String?
+  panNumber     String?
+  documentsVerified Boolean @default(false)
+  profileComplete Boolean @default(false)
   accounts      Account[]
   sessions      Session[]
   orders        Order[]
@@ -61,6 +67,15 @@ model VerificationToken {
   expires    DateTime
 
   @@id([identifier, token])
+}
+
+model EmailOTP {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  otp       String
+  expires   DateTime
+  attempts  Int      @default(0)
+  createdAt DateTime @default(now())
 }
 
 model Service {

@@ -20,8 +20,7 @@ export default function DeclarationPage() {
     localStorage.setItem('declaration_consent', 'true')
     localStorage.setItem('declaration_timestamp', new Date().toISOString())
     
-    // Redirect to signup
-    router.push('/signup')
+    router.push('/onboarding')
   }
 
   return (
