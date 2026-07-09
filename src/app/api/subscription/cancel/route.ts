@@ -38,7 +38,7 @@ export async function POST(request: NextRequest) {
         status: 'cancelled',
         tier: 'normal',
         price: 0,
-        cancelledAt: new Date(),
+        cancellationDate: new Date(),
         cancellationReason: reason || 'User requested',
       },
     })

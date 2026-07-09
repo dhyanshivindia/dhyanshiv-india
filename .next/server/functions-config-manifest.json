@@ -1,1 +1,1 @@
-{"version":1,"functions":{"/api/services":{},"/api/auth/[...nextauth]":{},"/api/checkout":{},"/services/[slug]":{},"/blog/[slug]":{},"/api/admin/service":{},"/blog":{}}}
+{"version":1,"functions":{"/api/payment/create-order":{},"/api/payment/verify":{},"/api/services":{},"/api/subscription/cancel":{},"/api/subscription/downgrade":{},"/api/subscription":{},"/api/subscription/upgrade":{},"/api/user/onboarding":{},"/blog/[slug]":{},"/blog":{},"/services/[slug]":{},"/api/admin/service":{},"/api/auth/[...nextauth]":{},"/api/checkout":{}}}

@@ -47,7 +47,7 @@ export async function POST(request: NextRequest) {
     const newPrice = tierPricing[newTier as keyof typeof tierPricing]
 
     // Calculate refund (prorated)
-    const refundAmount = user.subscription
+    const refundAmount = user.subscription && user.subscription.currentPeriodEnd && user.subscription.currentPeriodStart
       ? Math.round(
           (user.subscription.price * (user.subscription.currentPeriodEnd.getTime() - Date.now())) /
           (user.subscription.currentPeriodEnd.getTime() - user.subscription.currentPeriodStart.getTime())

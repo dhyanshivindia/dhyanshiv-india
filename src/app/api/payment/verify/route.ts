@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
-import prisma from '@/lib/prisma'
+import { prisma } from '@/lib/prisma'
 import crypto from 'crypto'
 
 export const dynamic = 'force-dynamic'
@@ -65,20 +65,16 @@ export async function POST(request: NextRequest) {
         tier,
         status: 'active',
         price: totalAmount,
-        razorpayOrderId: orderId,
-        razorpayPaymentId: paymentId,
         razorpayPlanId: `plan_${tier}_${Date.now()}`,
         razorpaySubId: `sub_${Date.now()}`,
         currentPeriodStart: new Date(),
-        currentPeriodEnd: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 days
+        currentPeriodEnd: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
         nextBillingDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
       },
       update: {
         tier,
         status: 'active',
         price: totalAmount,
-        razorpayOrderId: orderId,
-        razorpayPaymentId: paymentId,
         currentPeriodStart: new Date(),
         currentPeriodEnd: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
         nextBillingDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
@@ -113,7 +109,6 @@ export async function POST(request: NextRequest) {
         fromTier: user.tier,
         toTier: tier,
         reason: 'upgrade',
-        timestamp: new Date(),
       },
     })
 

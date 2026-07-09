@@ -82,7 +82,7 @@ export default function CheckoutPage() {
       description: `${pricing.name} Plan Subscription`,
       prefill: {
         email: session?.user?.email,
-        contact: session?.user?.phone || '',
+        contact: '',
       },
       handler: (response: any) => {
         // Payment successful - verify and save to database

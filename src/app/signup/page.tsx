@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 
 type SubscriptionTier = 'normal' | 'pro' | 'premium'
@@ -59,6 +59,14 @@ export default function SignUpPage() {
   const [isLoading, setIsLoading] = useState(false)
   const router = useRouter()
 
+  useEffect(() => {
+    // Check if user has given consent
+    const consent = localStorage.getItem('declaration_consent')
+    if (!consent) {
+      router.push('/declaration')
+    }
+  }, [router])
+
   const handleContinue = async () => {
     setIsLoading(true)
     try {
@@ -109,7 +117,7 @@ export default function SignUpPage() {
                 } bg-white dark:bg-zinc-900/50 p-8 backdrop-blur`}
               >
                 {/* Recommended Badge */}
-                {details.recommended && (
+                {'recommended' in details && details.recommended && (
                   <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
                     <span className="bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-4 py-1 rounded-full text-sm font-bold">
                       MOST POPULAR
@@ -132,7 +140,7 @@ export default function SignUpPage() {
                   <span className="text-4xl font-bold bg-gradient-to-r from-cyan-600 to-blue-600 dark:from-cyan-400 dark:to-blue-400 bg-clip-text text-transparent">
                     {details.price}
                   </span>
-                  {details.period && (
+                  {('period' in details && details.period) && (
                     <span className="text-zinc-600 dark:text-zinc-400 ml-2">
                       {details.period}
                     </span>

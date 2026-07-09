@@ -215,29 +215,3 @@ export default function DashboardPage() {
     </div>
   )
 }
-          ))}
-        </div>
-      </div>
-
-      {/* Quick Actions */}
-      <div className="rounded-2xl border border-zinc-200 bg-white p-8 dark:border-white/10 dark:bg-zinc-800/50">
-        <h2 className="text-xl font-bold text-zinc-900 dark:text-white">
-          Quick Actions
-        </h2>
-        <div className="mt-6 flex flex-wrap gap-3">
-          <button className="rounded-lg bg-cyan-600 px-4 py-2 text-sm font-semibold text-white hover:bg-cyan-700 dark:bg-cyan-600 dark:hover:bg-cyan-700">
-            New Service Request
-          </button>
-          <button className="rounded-lg border border-zinc-300 px-4 py-2 text-sm font-semibold text-zinc-900 hover:bg-zinc-50 dark:border-white/20 dark:text-white dark:hover:bg-zinc-800">
-            View Compliance Status
-          </button>
-          {isAdmin && (
-            <button className="rounded-lg border border-zinc-300 px-4 py-2 text-sm font-semibold text-zinc-900 hover:bg-zinc-50 dark:border-white/20 dark:text-white dark:hover:bg-zinc-800">
-              View Analytics
-            </button>
-          )}
-        </div>
-      </div>
-    </div>
-  )
-}

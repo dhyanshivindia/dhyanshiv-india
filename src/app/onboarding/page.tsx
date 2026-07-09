@@ -28,7 +28,6 @@ export default function OnboardingPage() {
     setIsLoading(true)
 
     try {
-      // Save user profile and subscription
       const response = await fetch('/api/user/onboarding', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -40,7 +39,6 @@ export default function OnboardingPage() {
 
       if (!response.ok) throw new Error('Onboarding failed')
 
-      // Redirect to app domain
       const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://app.dhyanshivindia.in'
       window.location.href = `${appUrl}/dashboard`
     } catch (error) {
@@ -53,7 +51,7 @@ export default function OnboardingPage() {
 
   if (!session) {
     return (
-      <main className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-white dark:from-zinc-950 dark:to-zinc-900 p-4">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-white dark:from-zinc-950 dark:to-zinc-900 p-4">
         <div className="text-center">
           <p className="text-zinc-600 dark:text-zinc-400 mb-4">
             Please sign in first
@@ -65,14 +63,13 @@ export default function OnboardingPage() {
             Sign In
           </Link>
         </div>
-      </main>
+      </div>
     )
   }
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-cyan-50 dark:from-zinc-950 dark:via-zinc-900 dark:to-cyan-950 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-cyan-50 dark:from-zinc-950 dark:via-zinc-900 dark:to-cyan-950 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-2xl mx-auto">
-        {/* Progress */}
         <div className="mb-12">
           <div className="text-center mb-8">
             <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-r from-cyan-500 to-blue-600 text-white text-2xl font-bold mb-4">
@@ -83,12 +80,11 @@ export default function OnboardingPage() {
             </h1>
             <p className="mt-3 text-zinc-600 dark:text-zinc-400">
               {tier === 'normal'
-                ? 'Let's get you started with the free plan'
-                : `You've selected the ${tier.charAt(0).toUpperCase() + tier.slice(1)} plan`}
+                ? 'Let us get you started with the free plan'
+                : `You have selected the ${tier.charAt(0).toUpperCase() + tier.slice(1)} plan`}
             </p>
           </div>
 
-          {/* Progress Bar */}
           <div className="flex items-center gap-4 mb-8">
             <div className="flex-1 h-2 bg-cyan-500 rounded-full"></div>
             <span className="text-sm font-semibold text-cyan-600 dark:text-cyan-400">
@@ -98,10 +94,8 @@ export default function OnboardingPage() {
           </div>
         </div>
 
-        {/* Onboarding Form */}
         <div className="rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/50 shadow-xl p-8 sm:p-12 backdrop-blur">
           <form onSubmit={handleComplete} className="space-y-6">
-            {/* Company Name */}
             <div>
               <label htmlFor="companyName" className="block text-sm font-semibold text-zinc-900 dark:text-white mb-2">
                 Company Name
@@ -118,7 +112,6 @@ export default function OnboardingPage() {
               />
             </div>
 
-            {/* Phone */}
             <div>
               <label htmlFor="phone" className="block text-sm font-semibold text-zinc-900 dark:text-white mb-2">
                 Phone Number
@@ -135,7 +128,6 @@ export default function OnboardingPage() {
               />
             </div>
 
-            {/* Industry */}
             <div>
               <label htmlFor="industry" className="block text-sm font-semibold text-zinc-900 dark:text-white mb-2">
                 Industry
@@ -160,7 +152,6 @@ export default function OnboardingPage() {
               </select>
             </div>
 
-            {/* Plan Summary */}
             <div className="rounded-lg bg-gradient-to-r from-cyan-50 to-blue-50 dark:from-cyan-900/20 dark:to-blue-900/20 border border-cyan-200 dark:border-cyan-800 p-4 mb-6">
               <p className="text-sm text-zinc-700 dark:text-zinc-300">
                 <strong>Plan:</strong>{' '}
@@ -172,12 +163,11 @@ export default function OnboardingPage() {
               </p>
               {tier !== 'normal' && (
                 <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-2">
-                  Payment will be processed after this setup. You'll get 3 days free trial first.
+                  Payment will be processed after this setup. You will get 3 days free trial first.
                 </p>
               )}
             </div>
 
-            {/* Submit Button */}
             <button
               type="submit"
               disabled={isLoading || !formData.companyName || !formData.phone || !formData.industry}
@@ -186,7 +176,6 @@ export default function OnboardingPage() {
               {isLoading ? 'Setting up your account...' : 'Complete Setup & Enter Dashboard'}
             </button>
 
-            {/* Skip for now (Normal tier only) */}
             {tier === 'normal' && (
               <button
                 type="button"
@@ -201,10 +190,9 @@ export default function OnboardingPage() {
             )}
           </form>
 
-          {/* Additional Info */}
           <div className="mt-8 pt-8 border-t border-zinc-200 dark:border-zinc-800">
             <p className="text-xs text-zinc-600 dark:text-zinc-400 text-center">
-              We're committed to your privacy. Your data is encrypted and secure.
+              We are committed to your privacy. Your data is encrypted and secure.
               <br />
               <Link href="/privacy-policy" className="text-cyan-600 dark:text-cyan-400 hover:underline">
                 Learn more
@@ -213,6 +201,6 @@ export default function OnboardingPage() {
           </div>
         </div>
       </div>
-    </main>
+    </div>
   )
 }
