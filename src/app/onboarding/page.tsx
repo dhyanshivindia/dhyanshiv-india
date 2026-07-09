@@ -9,6 +9,7 @@ type OnboardingStep = 'email' | 'otp' | 'personal' | 'legal'
 
 export default function OnboardingPage() {
   const router = useRouter()
+  const [mounted, setMounted] = useState(false)
   const [step, setStep] = useState<OnboardingStep>('email')
   const [isLoading, setIsLoading] = useState(false)
   const [email, setEmail] = useState('')
@@ -26,6 +27,7 @@ export default function OnboardingPage() {
   })
 
   useEffect(() => {
+    setMounted(true)
     const consent = localStorage.getItem('declaration_consent')
     if (!consent) {
       router.push('/declaration')
@@ -145,6 +147,9 @@ export default function OnboardingPage() {
   }
 
   return (
+    <>
+      {!mounted && <div className="min-h-screen" />}
+      {mounted && (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-cyan-50 dark:from-zinc-950 dark:via-zinc-900 dark:to-cyan-950 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md mx-auto">
         <div className="text-center mb-8">
@@ -363,5 +368,7 @@ export default function OnboardingPage() {
         </div>
       </div>
     </div>
+      )}
+    </>
   )
 }
