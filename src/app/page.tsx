@@ -21,6 +21,12 @@ export default function Home() {
               Enterprise-grade compliance automation, secure payment infrastructure, and corporate tech delivery. <span className="font-semibold text-cyan-700 dark:text-cyan-300">Built for regulated enterprises, MSMEs, and startups scaling with confidence.</span>
             </p>
             <div className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
+              <Link href="/signup" className="group inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 px-8 py-4 text-lg font-semibold text-white hover:shadow-xl hover:shadow-purple-500/30 transition-all hover:scale-105">
+                <span>Get Started Now</span>
+                <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                </svg>
+              </Link>
               <Link href="/services" className="group inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-700 hover:to-blue-700 px-8 py-4 text-lg font-semibold text-white hover:shadow-xl hover:shadow-cyan-500/30 transition-all hover:scale-105">
                 <span>Explore Services</span>
                 <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">

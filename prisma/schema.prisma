@@ -12,11 +12,17 @@ model User {
   name          String?
   email         String    @unique
   role          String    @default("user")
+  tier          String    @default("normal")  // "normal" | "pro" | "premium"
   emailVerified DateTime?
   image         String?
+  companyName   String?
+  phone         String?
   accounts      Account[]
   sessions      Session[]
   orders        Order[]
+  subscription  Subscription?
+  quota         Quota?
+  subscriptionHistory SubscriptionHistory[]
 }
 
 model Account {
@@ -84,4 +90,55 @@ model Order {
   razorpayOrderId String   @unique
   paymentStatus   String   @default("Pending")
   createdAt       DateTime @default(now())
+}
+
+model Subscription {
+  id                 String   @id @default(cuid())
+  userId             String   @unique
+  user               User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  tier               String   @default("normal")  // "normal" | "pro" | "premium"
+  status             String   @default("active")  // "active" | "paused" | "cancelled"
+  
+  razorpayPlanId     String?
+  razorpaySubId      String?  @unique
+  
+  billingCycle       String   @default("monthly")  // "monthly" | "yearly"
+  price              Float    @default(0)
+  
+  currentPeriodStart DateTime?
+  currentPeriodEnd   DateTime?
+  nextBillingDate    DateTime?
+  
+  cancellationDate   DateTime?
+  cancellationReason String?
+  
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+}
+
+model Quota {
+  id                 String   @id @default(cuid())
+  userId             String   @unique
+  user               User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  requestsUsed       Int      @default(0)
+  requestsLimit      Int      @default(100)
+  
+  resetDate          DateTime?
+  
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+}
+
+model SubscriptionHistory {
+  id           String   @id @default(cuid())
+  userId       String
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  fromTier     String
+  toTier       String
+  reason       String   // "upgrade" | "downgrade" | "signup" | "cancelled"
+  
+  createdAt    DateTime @default(now())
 }

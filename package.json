@@ -23,7 +23,7 @@
     "next-auth": "^4.24.7",
     "next-mdx-remote": "^6.0.0",
     "nodemailer": "^7.0.7",
-    "razorpay": "^2.9.4",
+    "razorpay": "^2.9.6",
     "react": "^18.3.0",
     "react-dom": "^18.3.0",
     "tailwind-merge": "^2.3.0",

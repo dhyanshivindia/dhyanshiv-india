@@ -2,18 +2,23 @@
 
 import Link from 'next/link'
 import { useState } from 'react'
+import { useSearchParams } from 'next/navigation'
 import { signIn } from 'next-auth/react'
 
 export default function SignInPage() {
+  const searchParams = useSearchParams()
+  const tier = searchParams.get('tier') || 'pro'
   const [email, setEmail] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [status, setStatus] = useState('')
+
+  const callbackUrl = `/onboarding?tier=${tier}`
 
   const onGoogle = async () => {
     setStatus('')
     setIsLoading(true)
     try {
-      await signIn('google', { callbackUrl: '/services' })
+      await signIn('google', { callbackUrl })
     } finally {
       setIsLoading(false)
     }
@@ -23,7 +28,7 @@ export default function SignInPage() {
     setStatus('')
     setIsLoading(true)
     try {
-      await signIn('email', { email, callbackUrl: '/services' })
+      await signIn('email', { email, callbackUrl })
     } finally {
       setIsLoading(false)
     }
