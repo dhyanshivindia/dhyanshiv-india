@@ -40,6 +40,14 @@ export default function SiteHeader() {
             </Link>
           ))}
           
+          {/* Get Connected CTA */}
+          <Link
+            href="/get-connected"
+            className="ml-2 rounded-lg bg-gradient-to-r from-cyan-600 to-blue-600 px-4 py-2 text-white font-semibold text-sm whitespace-nowrap hover:shadow-lg hover:shadow-cyan-500/30 transition-all hover:scale-105"
+          >
+            Get Connected
+          </Link>
+          
           {/* Theme Toggle */}
           <div className="shrink-0 ml-2">
             <ThemeToggle />
