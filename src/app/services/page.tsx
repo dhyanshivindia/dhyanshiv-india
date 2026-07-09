@@ -23,43 +23,43 @@ export default function ServicesPage() {
     {
       id: 'compliance-automation',
       title: 'Compliance Automation',
-      description: 'Turn recurring filings into governed, auditable workflows—deadline-aware and secure.',
-      bullets: ['Automated documentation pipeline', 'GST/TDS readiness checks', 'Audit-ready dashboards + reports'],
+      description: 'Automate your tax filings and regulatory requirements. Never miss a deadline again with our compliance-ready system.',
+      bullets: ['GST & Tax Filing Ready', 'Automatic Deadline Reminders', 'Audit-Ready Reports'],
       accent: 'cyan',
     },
     {
       id: 'corporate-tech',
-      title: 'Corporate Tech Delivery',
-      description: 'Enterprise-grade systems built for reliability, security, and rapid corporate onboarding.',
-      bullets: ['Roadmap planning & execution', 'Secure onboarding & access flows', 'Data integrity with proven stacks'],
+      title: 'Business Software Solutions',
+      description: 'Custom software built for your business needs. Secure, fast, and built to grow with you.',
+      bullets: ['Custom Development', 'Secure & Reliable', 'Easy to Use'],
       accent: 'purple',
     },
     {
       id: 'automated-payments',
-      title: 'Automated Payments',
-      description: 'Razorpay-powered checkout and status continuity to keep the service lifecycle effortless.',
-      bullets: ['Order lifecycle tracking', 'Webhook-based reconciliation', 'Receipts + service continuity'],
+      title: 'Secure Payment Processing',
+      description: 'Accept payments safely from your customers. Powered by India\'s most trusted payment gateway.',
+      bullets: ['Instant Payment Processing', 'Automatic Invoices & Receipts', 'Transparent Pricing'],
       accent: 'cyan',
     },
     {
       id: 'security-trust-ops',
-      title: 'Security & Trust Ops',
-      description: 'Least-privilege patterns and secure session flows for safer corporate access.',
-      bullets: ['Authentication & session protection', 'Operational hygiene + monitoring', 'Scalable access controls'],
+      title: 'Data Security & Protection',
+      description: 'Your business data is secure with us. Enterprise-grade security and 24/7 monitoring.',
+      bullets: ['Bank-Level Encryption', 'Secure Data Backup', '24/7 Security Monitoring'],
       accent: 'purple',
     },
     {
       id: 'workflow-automation',
-      title: 'Workflow Automation',
-      description: 'Reduce manual effort with governed automation across compliance and delivery pipelines.',
-      bullets: ['Automated notifications & routing', 'Governed data transformations', 'Change tracking + audit trails'],
+      title: 'Smart Automation',
+      description: 'Reduce manual work. Automate repetitive tasks and focus on growing your business.',
+      bullets: ['Automated Alerts & Notifications', 'Smart Workflows', 'Complete Audit Trail'],
       accent: 'cyan',
     },
     {
       id: 'support-service-ops',
-      title: 'Support & Service Ops',
-      description: 'Reliable post-auth operations that keep delivery smooth and transparent.',
-      bullets: ['Issue triage + escalation paths', 'Delivery monitoring', 'Corporate-ready documentation'],
+      title: 'Expert Support & Training',
+      description: 'Get help when you need it. Our team is here to ensure your success with quick responses.',
+      bullets: ['30-Min WhatsApp Support', '24-Hour Email Support', 'Complete Documentation'],
       accent: 'purple',
     },
   ]
@@ -118,10 +118,10 @@ export default function ServicesPage() {
           <div className="mb-10 rounded-[32px] border border-zinc-200 bg-white/80 p-8 shadow-xl backdrop-blur-xl">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
               <div>
-                <p className="text-sm uppercase tracking-[0.35em] text-cyan-700">Our service universe</p>
-                <h1 className="mt-4 text-4xl font-semibold text-slate-900">Enterprise services built for compliance-ready growth.</h1>
+                <p className="text-sm uppercase tracking-[0.35em] text-cyan-700">What We Offer</p>
+                <h1 className="mt-4 text-4xl font-semibold text-slate-900">Our Services for Your Business Growth</h1>
                 <p className="mt-4 max-w-2xl text-slate-600">
-                  Choose a verified capability below. Authentication unlocks guided checkout and secure service delivery.
+                  Choose the services you need to automate compliance, secure payments, protect your data, and focus on what matters most—growing your business.
                 </p>
               </div>
               <Link
