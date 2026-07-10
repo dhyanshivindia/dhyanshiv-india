@@ -87,7 +87,7 @@ export default function ForgotIDPage() {
                 <p className="text-xs text-muted-foreground mb-1">Your Account ID</p>
                 <p className="text-xl font-mono font-semibold text-foreground tracking-wider">{userCode}</p>
               </div>
-              <p className="text-xs text-muted-foreground text-center">Keep this ID safe. You'll need it for sign in and support requests.</p>
+              <p className="text-xs text-muted-foreground text-center">Keep this ID safe. You&apos;ll need it for sign in and support requests.</p>
               <Link href="/signin">
                 <button className="inline-flex h-9 w-full items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow hover:bg-primary/90 transition-colors">
                   Sign in now

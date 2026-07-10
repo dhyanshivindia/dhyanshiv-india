@@ -398,7 +398,7 @@ export default function AgentSignUp() {
                   </button>
                 </div>
                 <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-4">
-                  ⚠️ Save this ID securely. You'll need it for verification and reference.
+                  ⚠️ Save this ID securely. You&apos;ll need it for verification and reference.
                 </p>
               </div>
 
