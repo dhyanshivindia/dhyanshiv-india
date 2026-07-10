@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState } from 'react'
 import Link from 'next/link'
@@ -31,7 +31,6 @@ export default function AgentSignIn() {
         return
       }
 
-      // Store agent info in localStorage
       localStorage.setItem(
         'agentAuth',
         JSON.stringify({
@@ -43,7 +42,6 @@ export default function AgentSignIn() {
         })
       )
 
-      // Redirect to agent dashboard
       router.push('/agent/dashboard')
     } catch (err) {
       setError('An error occurred. Please try again.')
@@ -54,127 +52,46 @@ export default function AgentSignIn() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-emerald-50 to-teal-50 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 flex flex-col items-center justify-center px-4 py-8">
-      <div className="w-full max-w-md">
-        {/* Header */}
-        <div className="text-center mb-10">
-          <div className="mb-4 text-center">
-            <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-emerald-600 to-teal-600 rounded-full">
-              <span className="text-3xl">🤖</span>
-            </div>
+    <div className="flex min-h-[calc(100vh-3.5rem)] items-center justify-center bg-gradient-to-br from-emerald-50/50 to-white dark:from-zinc-950 dark:to-zinc-900 px-4 py-12">
+      <div className="w-full max-w-sm">
+        <div className="mb-8 text-center">
+          <div className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-emerald-100 dark:bg-emerald-900/30 mb-4">
+            <svg className="w-5 h-5 text-emerald-600 dark:text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
           </div>
-          <h1 className="text-4xl font-bold mb-3 bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
-            Agent Sign In
-          </h1>
-          <p className="text-zinc-600 dark:text-zinc-400">
-            Access your agent account and dashboard
-          </p>
+          <h1 className="text-2xl font-semibold tracking-tight text-foreground">Agent Sign In</h1>
+          <p className="mt-1.5 text-sm text-muted-foreground">Access your agent account and dashboard</p>
         </div>
-
-        {/* Form Card */}
-        <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200/50 dark:border-zinc-800/50 shadow-xl p-8 mb-6">
-          <form onSubmit={handleSignIn} className="space-y-6">
-            {/* Email Input */}
+        <div className="rounded-xl border border-emerald-200/70 dark:border-emerald-900/40 bg-card shadow-card p-6">
+          <form onSubmit={handleSignIn} className="space-y-4">
             <div>
-              <label className="block text-sm font-semibold text-zinc-700 dark:text-zinc-300 mb-2">
-                Email Address
-              </label>
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="your@email.com"
-                className="w-full px-4 py-3 rounded-lg border border-zinc-300 dark:border-zinc-700 dark:bg-zinc-800 text-zinc-900 dark:text-white placeholder-zinc-500 dark:placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-emerald-600 focus:border-transparent transition-all"
-                required
-                disabled={loading}
-              />
+              <label htmlFor="agent-email" className="block text-sm font-medium text-foreground mb-1.5">Email Address</label>
+              <input id="agent-email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="your@email.com" className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs transition-colors placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-emerald-500 disabled:cursor-not-allowed disabled:opacity-50" required disabled={loading} />
             </div>
-
-            {/* Password Input */}
             <div>
-              <label className="block text-sm font-semibold text-zinc-700 dark:text-zinc-300 mb-2">
-                Password
-              </label>
+              <label htmlFor="agent-password" className="block text-sm font-medium text-foreground mb-1.5">Password</label>
               <div className="relative">
-                <input
-                  type={showPassword ? 'text' : 'password'}
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="••••••••"
-                  className="w-full px-4 py-3 rounded-lg border border-zinc-300 dark:border-zinc-700 dark:bg-zinc-800 text-zinc-900 dark:text-white placeholder-zinc-500 dark:placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-emerald-600 focus:border-transparent transition-all"
-                  required
-                  disabled={loading}
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-zinc-700 dark:text-zinc-400 dark:hover:text-zinc-200"
-                  disabled={loading}
-                >
-                  {showPassword ? '👁️' : '👁️‍🗨️'}
+                <input id="agent-password" type={showPassword ? 'text' : 'password'} value={password} onChange={(e) => setPassword(e.target.value)} placeholder="••••••••" className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 pr-10 text-sm shadow-xs transition-colors placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-emerald-500 disabled:cursor-not-allowed disabled:opacity-50" required disabled={loading} />
+                <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground" disabled={loading} tabIndex={-1}>
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={showPassword ? "M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" : "M15 12a3 3 0 11-6 0 3 3 0 016 0z M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"} /></svg>
                 </button>
               </div>
             </div>
-
-            {/* Error Message */}
-            {error && (
-              <div className="bg-red-50 dark:bg-red-900/20 border border-red-300 dark:border-red-800 text-red-700 dark:text-red-400 px-4 py-3 rounded-lg text-sm">
-                {error}
-              </div>
-            )}
-
-            {/* Sign In Button */}
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 disabled:from-zinc-400 disabled:to-zinc-400 text-white font-bold py-3 rounded-lg transition-all hover:scale-105 active:scale-95 shadow-lg"
-            >
-              {loading ? '🔄 Signing In...' : '🔐 Sign In'}
-            </button>
+            {error && <div className="rounded-md bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 p-3 text-xs text-destructive">{error}</div>}
+            <button type="submit" disabled={loading} className="inline-flex h-9 w-full items-center justify-center rounded-md bg-emerald-600 px-4 py-2 text-sm font-medium text-white shadow hover:bg-emerald-700 disabled:pointer-events-none disabled:opacity-50 transition-colors">{loading ? 'Signing in...' : 'Sign in'}</button>
           </form>
-
-          {/* Divider */}
-          <div className="relative my-6">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-zinc-300 dark:border-zinc-700"></div>
-            </div>
-            <div className="relative flex justify-center text-sm">
-              <span className="px-2 bg-white dark:bg-zinc-900 text-zinc-500 dark:text-zinc-400">
-                New to our platform?
-              </span>
-            </div>
+          <div className="flex items-center gap-3 my-4">
+            <div className="flex-1 h-px bg-border" />
+            <span className="text-xs text-muted-foreground">new here?</span>
+            <div className="flex-1 h-px bg-border" />
           </div>
-
-          {/* Sign Up Link */}
           <Link href="/agent/signup">
-            <button
-              type="button"
-              className="w-full bg-gradient-to-r from-teal-600 to-green-600 hover:from-teal-700 hover:to-green-700 text-white font-bold py-3 rounded-lg transition-all hover:scale-105 active:scale-95 shadow-lg"
-            >
-              ✨ Join as Agent
-            </button>
+            <button type="button" className="inline-flex h-9 w-full items-center justify-center rounded-md border border-emerald-300 dark:border-emerald-700 px-4 py-2 text-sm font-medium text-emerald-700 dark:text-emerald-400 shadow-xs hover:bg-emerald-50 dark:hover:bg-emerald-900/20 transition-colors">Join as Agent</button>
           </Link>
         </div>
-
-        {/* Footer Links */}
-        <div className="text-center space-y-4">
-          <p className="text-sm text-zinc-600 dark:text-zinc-400">
-            User?{' '}
-            <Link
-              href="/signin"
-              className="text-emerald-600 dark:text-emerald-400 font-semibold hover:underline"
-            >
-              Sign In Here
-            </Link>
-          </p>
-          <p className="text-sm text-zinc-600 dark:text-zinc-400">
-            <Link
-              href="/"
-              className="text-emerald-600 dark:text-emerald-400 font-semibold hover:underline"
-            >
-              ← Back to Home
-            </Link>
-          </p>
+        <div className="mt-6 text-center">
+          <p className="text-xs text-muted-foreground"><Link href="/" className="text-primary hover:underline underline-offset-4">← Back to Home</Link></p>
         </div>
       </div>
     </div>

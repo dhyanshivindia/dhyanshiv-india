@@ -106,11 +106,11 @@ export default function RootLayout({
         <OrganizationSchema />
       </head>
       <body
-        className={`${inter.variable} min-h-screen bg-white text-slate-900 dark:bg-zinc-950 dark:text-zinc-50`}
+        className={`${inter.variable} font-sans min-h-screen bg-background text-foreground antialiased`}
       >
         <Providers>
           <SiteHeader />
-          <main id="main-content" className="min-h-[calc(100vh-200px)]">
+          <main id="main-content" className="min-h-[calc(100vh-theme(spacing.14)-theme(spacing.24))]">
             {children}
           </main>
           <SiteFooter />

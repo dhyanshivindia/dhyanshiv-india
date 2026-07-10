@@ -1,8 +1,10 @@
-'use client'
+﻿'use client'
 
 import { useSession } from 'next-auth/react'
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
+import { Zap, BarChart2, CreditCard, MessageCircle, Mail, ArrowRight } from 'lucide-react'
+import { Skeleton } from '@/components/ui/skeleton'
 
 interface SubscriptionData {
   tier: string
@@ -29,7 +31,6 @@ export default function DashboardPage() {
       window.location.href = '/signin'
       return
     }
-
     if (status === 'authenticated') {
       fetchSubscriptionData()
     }
@@ -51,164 +52,172 @@ export default function DashboardPage() {
 
   if (status === 'loading' || isLoading) {
     return (
-      <div className="flex items-center justify-center py-12">
-        <div className="text-center">
-          <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-cyan-100 dark:bg-cyan-900/30 animate-pulse mb-4">
-            <svg className="w-6 h-6 text-cyan-600 dark:text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-            </svg>
+      <div className="min-h-[calc(100vh-3.5rem)] bg-zinc-50 dark:bg-zinc-950 p-6">
+        <div className="mx-auto max-w-7xl space-y-6">
+          <Skeleton className="h-7 w-48" />
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {[1,2,3].map((i) => <Skeleton key={i} className="h-36 rounded-lg" />)}
           </div>
-          <p className="text-zinc-600 dark:text-zinc-400">Loading your dashboard...</p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {[1,2].map((i) => <Skeleton key={i} className="h-48 rounded-lg" />)}
+          </div>
         </div>
       </div>
     )
   }
 
-  const tierColors = {
-    normal: 'from-slate-500 to-slate-600',
-    pro: 'from-cyan-500 to-blue-600',
-    premium: 'from-purple-500 to-pink-600',
+  const tierBadge: Record<string, { label: string; color: string }> = {
+    normal: { label: 'Free', color: 'bg-zinc-100 text-zinc-700 dark:bg-zinc-800 dark:text-zinc-300' },
+    pro: { label: 'Pro', color: 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400' },
+    premium: { label: 'Premium', color: 'bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400' },
   }
 
   const tierInfo = {
-    normal: { name: 'Normal', price: 'Free', features: 10 },
-    pro: { name: 'Pro', price: '₹599/month', features: 100 },
-    premium: { name: 'Premium', price: '₹2499/month', features: 'Unlimited' },
+    normal: { name: 'Free Plan', price: 'Free', features: 10 },
+    pro: { name: 'Pro Plan', price: '₹599/month', features: 100 },
+    premium: { name: 'Premium Plan', price: '₹2499/month', features: 'Unlimited' },
   }
 
   const currentTier = subscriptionData?.tier || 'normal'
   const info = tierInfo[currentTier as keyof typeof tierInfo]
+  const badge = tierBadge[currentTier as keyof typeof tierBadge]
   const usage = subscriptionData?.quota
   const usagePercent = usage ? Math.round((usage.requestsUsed / usage.requestsLimit) * 100) : 0
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-cyan-50 dark:from-slate-950 dark:via-zinc-900 dark:to-slate-950 space-y-8 p-8">
-      {error && (
-        <div className="p-4 rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-900 text-red-700 dark:text-red-400">
-          {error}
-        </div>
-      )}
-
-      {/* Current Plan Card */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className={`rounded-2xl bg-gradient-to-br ${tierColors[currentTier as keyof typeof tierColors]} p-8 text-white shadow-lg`}>
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-semibold">Current Plan</h3>
-            <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm3.5-9c.83 0 1.5-.67 1.5-1.5S16.33 8 15.5 8 14 8.67 14 9.5s.67 1.5 1.5 1.5zm-7 0c.83 0 1.5-.67 1.5-1.5S9.33 8 8.5 8 7 8.67 7 9.5 7.67 11 8.5 11zm3.5 6.5c2.33 0 4.31-1.46 5.11-3.5H6.89c.8 2.04 2.78 3.5 5.11 3.5z" />
-            </svg>
+    <div className="min-h-[calc(100vh-3.5rem)] bg-zinc-50 dark:bg-zinc-950">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+        {/* Page header */}
+        <div className="flex items-start justify-between">
+          <div>
+            <h1 className="text-xl font-semibold text-foreground">Dashboard</h1>
+            <p className="mt-1 text-sm text-muted-foreground">
+              Welcome back, {session?.user?.name || session?.user?.email?.split('@')[0]}
+            </p>
           </div>
-          <p className="text-3xl font-bold mb-2">{info.name}</p>
-          <p className="text-white/80">{info.price}</p>
-          <button className="mt-6 w-full rounded-lg bg-white/20 hover:bg-white/30 px-4 py-2 font-semibold transition-all">
-            View All Plans
-          </button>
+          <span className={`inline-flex items-center rounded-md px-2.5 py-0.5 text-xs font-medium ${badge.color}`}>
+            {badge.label}
+          </span>
         </div>
 
-        {/* Usage Card */}
-        <div className="rounded-2xl bg-white dark:bg-zinc-800/50 border border-zinc-200 dark:border-white/10 p-8 shadow-lg">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">Monthly Usage</h3>
-            <svg className="w-6 h-6 text-cyan-600 dark:text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-            </svg>
+        {/* Error */}
+        {error && (
+          <div className="rounded-md bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 p-3 text-sm text-destructive">
+            {error}
           </div>
-          <p className="text-3xl font-bold text-zinc-900 dark:text-white mb-2">
-            {usage?.requestsUsed || 0} / {usage?.requestsLimit || 0}
-          </p>
-          <div className="w-full bg-zinc-200 dark:bg-zinc-700 rounded-full h-3 overflow-hidden">
-            <div
-              className="h-full bg-gradient-to-r from-cyan-500 to-blue-600 transition-all"
-              style={{ width: `${Math.min(usagePercent, 100)}%` }}
-            />
-          </div>
-          <p className="mt-3 text-sm text-zinc-600 dark:text-zinc-400">
-            {usagePercent}% of your monthly quota used
-          </p>
-        </div>
+        )}
 
-        {/* Next Billing */}
-        <div className="rounded-2xl bg-white dark:bg-zinc-800/50 border border-zinc-200 dark:border-white/10 p-8 shadow-lg">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-semibold text-zinc-900 dark:text-white">Billing</h3>
-            <svg className="w-6 h-6 text-purple-600 dark:text-purple-400" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z" />
-            </svg>
+        {/* Stats Row */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          {/* Plan */}
+          <div className="rounded-lg border border-border bg-card shadow-card p-5">
+            <div className="flex items-start justify-between">
+              <div>
+                <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Current Plan</p>
+                <p className="mt-2 text-xl font-semibold text-foreground">{info.name}</p>
+                <p className="mt-0.5 text-sm text-muted-foreground">{info.price}</p>
+              </div>
+              <div className="rounded-md bg-primary/10 p-2">
+                <Zap className="h-4 w-4 text-primary" />
+              </div>
+            </div>
+            <button className="mt-4 inline-flex h-7 items-center gap-1.5 rounded-md border border-input bg-background px-3 text-xs font-medium text-foreground shadow-xs hover:bg-accent transition-colors">
+              View plans <ArrowRight className="h-3 w-3" />
+            </button>
           </div>
-          {currentTier !== 'normal' && subscriptionData?.subscription?.nextBillingDate ? (
-            <>
-              <p className="text-sm text-zinc-600 dark:text-zinc-400">Next billing date</p>
-              <p className="text-2xl font-bold text-zinc-900 dark:text-white">
-                {new Date(subscriptionData.subscription.nextBillingDate).toLocaleDateString()}
-              </p>
-            </>
-          ) : (
-            <>
-              <p className="text-sm text-zinc-600 dark:text-zinc-400">Status</p>
-              <p className="text-2xl font-bold text-green-600 dark:text-green-400">Free Plan</p>
-            </>
-          )}
-          <button className="mt-6 w-full rounded-lg border border-zinc-300 dark:border-zinc-700 px-4 py-2 font-semibold text-zinc-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-800/50 transition-all">
-            Manage Billing
-          </button>
-        </div>
-      </div>
 
-      {/* Actions */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {/* Settings Card */}
-        <div className="rounded-2xl border border-zinc-200 dark:border-white/10 bg-white dark:bg-zinc-800/50 p-8 shadow-lg">
-          <h3 className="text-xl font-bold text-zinc-900 dark:text-white mb-4">Plan Management</h3>
-          <p className="text-zinc-600 dark:text-zinc-400 mb-6">
-            {currentTier === 'normal'
-              ? 'Upgrade to Pro or Premium to unlock advanced features'
-              : 'Modify your subscription, upgrade, downgrade, or cancel'}
-          </p>
-          <div className="flex gap-3">
-            {currentTier === 'normal' ? (
-              <Link
-                href="/signup"
-                className="flex-1 rounded-lg bg-gradient-to-r from-cyan-600 to-blue-600 px-4 py-3 text-center text-white font-semibold hover:from-cyan-700 hover:to-blue-700 transition-all"
-              >
-                Explore Plans
-              </Link>
-            ) : (
-              <>
-                <button className="flex-1 rounded-lg bg-gradient-to-r from-cyan-600 to-blue-600 px-4 py-3 text-white font-semibold hover:from-cyan-700 hover:to-blue-700 transition-all">
-                  Upgrade
-                </button>
-                <button className="flex-1 rounded-lg border border-zinc-300 dark:border-zinc-700 px-4 py-3 text-zinc-700 dark:text-zinc-300 font-semibold hover:bg-zinc-50 dark:hover:bg-zinc-800/50 transition-all">
-                  Downgrade
-                </button>
-                <button className="flex-1 rounded-lg border border-red-300 dark:border-red-900 px-4 py-3 text-red-700 dark:text-red-400 font-semibold hover:bg-red-50 dark:hover:bg-red-900/20 transition-all">
-                  Cancel
-                </button>
-              </>
-            )}
+          {/* Usage */}
+          <div className="rounded-lg border border-border bg-card shadow-card p-5">
+            <div className="flex items-start justify-between">
+              <div>
+                <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Monthly Usage</p>
+                <p className="mt-2 text-xl font-semibold text-foreground">
+                  {usage?.requestsUsed || 0} <span className="text-sm text-muted-foreground">/ {usage?.requestsLimit || 0}</span>
+                </p>
+                <p className="mt-0.5 text-sm text-muted-foreground">{usagePercent}% used</p>
+              </div>
+              <div className="rounded-md bg-blue-50 dark:bg-blue-900/20 p-2">
+                <BarChart2 className="h-4 w-4 text-blue-600 dark:text-blue-400" />
+              </div>
+            </div>
+            <div className="mt-4 h-1.5 rounded-full bg-muted overflow-hidden">
+              <div
+                className="h-full bg-primary transition-all rounded-full"
+                style={{ width: `${Math.min(usagePercent, 100)}%` }}
+              />
+            </div>
+          </div>
+
+          {/* Billing */}
+          <div className="rounded-lg border border-border bg-card shadow-card p-5">
+            <div className="flex items-start justify-between">
+              <div>
+                <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Billing</p>
+                {currentTier !== 'normal' && subscriptionData?.subscription?.nextBillingDate ? (
+                  <>
+                    <p className="mt-2 text-xl font-semibold text-foreground">
+                      {new Date(subscriptionData.subscription.nextBillingDate).toLocaleDateString()}
+                    </p>
+                    <p className="mt-0.5 text-sm text-muted-foreground">Next billing date</p>
+                  </>
+                ) : (
+                  <>
+                    <p className="mt-2 text-xl font-semibold text-green-600 dark:text-green-400">Free Plan</p>
+                    <p className="mt-0.5 text-sm text-muted-foreground">No billing required</p>
+                  </>
+                )}
+              </div>
+              <div className="rounded-md bg-purple-50 dark:bg-purple-900/20 p-2">
+                <CreditCard className="h-4 w-4 text-purple-600 dark:text-purple-400" />
+              </div>
+            </div>
+            <button className="mt-4 inline-flex h-7 items-center rounded-md border border-input bg-background px-3 text-xs font-medium text-foreground shadow-xs hover:bg-accent transition-colors">
+              Manage billing
+            </button>
           </div>
         </div>
 
-        {/* Support Card */}
-        <div className="rounded-2xl border border-zinc-200 dark:border-white/10 bg-white dark:bg-zinc-800/50 p-8 shadow-lg">
-          <h3 className="text-xl font-bold text-zinc-900 dark:text-white mb-4">Need Help?</h3>
-          <p className="text-zinc-600 dark:text-zinc-400 mb-6">
-            {currentTier === 'premium'
-              ? 'You have priority support access. Contact your dedicated account manager.'
-              : 'Contact our support team via WhatsApp or email'}
-          </p>
-          <div className="flex gap-3">
-            <a
-              href="https://wa.me/919173011851"
-              className="flex-1 rounded-lg bg-green-600 hover:bg-green-700 px-4 py-3 text-center text-white font-semibold transition-all"
-            >
-              WhatsApp Support
-            </a>
-            <a
-              href="mailto:support@dhyanshivindia.in"
-              className="flex-1 rounded-lg border border-zinc-300 dark:border-zinc-700 px-4 py-3 text-center text-zinc-700 dark:text-zinc-300 font-semibold hover:bg-zinc-50 dark:hover:bg-zinc-800/50 transition-all"
-            >
-              Email Support
-            </a>
+        {/* Actions */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {/* Plan Management */}
+          <div className="rounded-lg border border-border bg-card shadow-card p-6">
+            <h2 className="text-sm font-semibold text-foreground">Plan Management</h2>
+            <p className="mt-1.5 text-sm text-muted-foreground">
+              {currentTier === 'normal'
+                ? 'Upgrade to Pro or Premium to unlock advanced features and higher quotas.'
+                : 'Modify your subscription, upgrade, downgrade, or cancel at any time.'}
+            </p>
+            <div className="mt-4 flex flex-wrap gap-2">
+              {currentTier === 'normal' ? (
+                <Link href="/signup" className="inline-flex h-8 items-center rounded-md bg-primary px-4 text-xs font-medium text-primary-foreground shadow hover:bg-primary/90 transition-colors">
+                  Explore Plans
+                </Link>
+              ) : (
+                <>
+                  <button className="inline-flex h-8 items-center rounded-md bg-primary px-4 text-xs font-medium text-primary-foreground shadow hover:bg-primary/90 transition-colors">Upgrade</button>
+                  <button className="inline-flex h-8 items-center rounded-md border border-input bg-background px-4 text-xs font-medium text-foreground shadow-xs hover:bg-accent transition-colors">Downgrade</button>
+                  <button className="inline-flex h-8 items-center rounded-md border border-destructive bg-background px-4 text-xs font-medium text-destructive shadow-xs hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors">Cancel</button>
+                </>
+              )}
+            </div>
+          </div>
+
+          {/* Support */}
+          <div className="rounded-lg border border-border bg-card shadow-card p-6">
+            <h2 className="text-sm font-semibold text-foreground">Need Help?</h2>
+            <p className="mt-1.5 text-sm text-muted-foreground">
+              {currentTier === 'premium'
+                ? 'You have priority support. Contact your dedicated account manager.'
+                : 'Contact our support team via WhatsApp or email for assistance.'}
+            </p>
+            <div className="mt-4 flex flex-wrap gap-2">
+              <a href="https://wa.me/919173011851" className="inline-flex h-8 items-center gap-1.5 rounded-md bg-green-600 px-4 text-xs font-medium text-white shadow hover:bg-green-700 transition-colors">
+                <MessageCircle className="h-3.5 w-3.5" /> WhatsApp
+              </a>
+              <a href="mailto:support@dhyanshivindia.in" className="inline-flex h-8 items-center gap-1.5 rounded-md border border-input bg-background px-4 text-xs font-medium text-foreground shadow-xs hover:bg-accent transition-colors">
+                <Mail className="h-3.5 w-3.5" /> Email
+              </a>
+            </div>
           </div>
         </div>
       </div>

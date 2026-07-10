@@ -1,8 +1,9 @@
-'use client'
+﻿'use client'
 
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import { Users, Bot, BarChart3, Settings, LogOut, ShieldCheck } from 'lucide-react'
 
 interface AdminInfo {
   adminId: string
@@ -17,13 +18,11 @@ export default function AdminDashboard() {
   const router = useRouter()
 
   useEffect(() => {
-    // Check if admin is logged in
     const adminAuth = localStorage.getItem('adminAuth')
     if (!adminAuth) {
       router.push('/admin/signin')
       return
     }
-
     setAdmin(JSON.parse(adminAuth))
     setLoading(false)
   }, [router])
@@ -35,129 +34,125 @@ export default function AdminDashboard() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-cyan-50 to-blue-50 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 flex items-center justify-center">
-        <div className="text-center">
-          <div className="text-5xl mb-4">🔄</div>
-          <p className="text-lg text-zinc-600 dark:text-zinc-400">Loading...</p>
+      <div className="flex min-h-[calc(100vh-3.5rem)] items-center justify-center bg-background">
+        <div className="flex flex-col items-center gap-3">
+          <div className="h-8 w-8 animate-spin rounded-full border-2 border-primary border-t-transparent" />
+          <p className="text-sm text-muted-foreground">Loading...</p>
         </div>
       </div>
     )
   }
 
+  const actions = [
+    {
+      icon: Users,
+      title: 'User Management',
+      description: 'Manage all user accounts, roles, and permissions',
+      label: 'Manage Users',
+      color: 'text-blue-600 dark:text-blue-400',
+      bg: 'bg-blue-50 dark:bg-blue-900/20',
+    },
+    {
+      icon: Bot,
+      title: 'Agent Management',
+      description: 'Manage all agent accounts and their activities',
+      label: 'Manage Agents',
+      color: 'text-emerald-600 dark:text-emerald-400',
+      bg: 'bg-emerald-50 dark:bg-emerald-900/20',
+    },
+    {
+      icon: BarChart3,
+      title: 'System Statistics',
+      description: 'View system performance and analytics',
+      label: 'View Stats',
+      color: 'text-purple-600 dark:text-purple-400',
+      bg: 'bg-purple-50 dark:bg-purple-900/20',
+    },
+    {
+      icon: Settings,
+      title: 'System Settings',
+      description: 'Configure system settings and policies',
+      label: 'Open Settings',
+      color: 'text-amber-600 dark:text-amber-400',
+      bg: 'bg-amber-50 dark:bg-amber-900/20',
+    },
+  ]
+
   return (
-    <main className="min-h-screen bg-gradient-to-br from-slate-50 via-amber-50 to-orange-50 dark:from-slate-950 dark:via-zinc-900 dark:to-slate-950">
-      {/* Header */}
-      <header className="bg-white dark:bg-zinc-900 border-b border-amber-200 dark:border-amber-800/30 sticky top-0 z-40 shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
+    <div className="min-h-[calc(100vh-3.5rem)] bg-zinc-50 dark:bg-zinc-950">
+      {/* Page sub-header */}
+      <div className="border-b border-border bg-card sticky top-14 z-30">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-gradient-to-br from-amber-600 to-orange-600 rounded-full flex items-center justify-center">
-              <span className="text-xl">👨‍💼</span>
+            <div className="flex h-8 w-8 items-center justify-center rounded-md bg-amber-100 dark:bg-amber-900/30">
+              <ShieldCheck className="h-4 w-4 text-amber-600 dark:text-amber-400" />
             </div>
             <div>
-              <h1 className="text-xl font-bold text-zinc-900 dark:text-white">Admin Dashboard</h1>
-              <p className="text-sm text-zinc-600 dark:text-zinc-400">{admin?.userCode}</p>
+              <p className="text-sm font-semibold text-foreground">Admin Dashboard</p>
+              <p className="text-xs text-muted-foreground">{admin?.userCode}</p>
             </div>
           </div>
           <button
             onClick={handleLogout}
-            className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg font-semibold transition-all"
+            className="inline-flex items-center gap-2 rounded-md px-3 py-1.5 text-sm font-medium text-muted-foreground hover:bg-accent hover:text-accent-foreground transition-colors"
           >
-            🚪 Logout
+            <LogOut className="h-4 w-4" />
+            <span className="hidden sm:inline">Logout</span>
           </button>
         </div>
-      </header>
+      </div>
 
-      {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        {/* Welcome Section */}
-        <div className="mb-12">
-          <h2 className="text-3xl font-bold mb-4 text-zinc-900 dark:text-white">
-            Welcome, {admin?.email.split('@')[0]}! 👋
-          </h2>
-          <p className="text-lg text-zinc-600 dark:text-zinc-400">
-            You have full administrative access to the system.
-          </p>
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+        {/* Welcome */}
+        <div>
+          <h1 className="text-xl font-semibold text-foreground">Welcome back, {admin?.email.split('@')[0]}</h1>
+          <p className="mt-1 text-sm text-muted-foreground">You have full administrative access to the system.</p>
         </div>
 
-        {/* Admin Info Card */}
-        <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200/50 dark:border-zinc-800/50 shadow-lg p-8 mb-8">
-          <h3 className="text-xl font-bold text-zinc-900 dark:text-white mb-6">Admin Profile</h3>
-          <div className="grid md:grid-cols-3 gap-6">
-            <div className="p-4 bg-gradient-to-br from-amber-50 to-orange-50 dark:from-amber-900/20 dark:to-orange-900/20 rounded-lg border border-amber-200 dark:border-amber-800">
-              <p className="text-sm text-amber-700 dark:text-amber-400 font-semibold mb-1">Email</p>
-              <p className="text-lg font-bold text-amber-900 dark:text-amber-200">{admin?.email}</p>
-            </div>
-            <div className="p-4 bg-gradient-to-br from-orange-50 to-red-50 dark:from-orange-900/20 dark:to-red-900/20 rounded-lg border border-orange-200 dark:border-orange-800">
-              <p className="text-sm text-orange-700 dark:text-orange-400 font-semibold mb-1">Admin ID</p>
-              <p className="text-lg font-bold text-orange-900 dark:text-orange-200">{admin?.userCode}</p>
-            </div>
-            <div className="p-4 bg-gradient-to-br from-red-50 to-pink-50 dark:from-red-900/20 dark:to-pink-900/20 rounded-lg border border-red-200 dark:border-red-800">
-              <p className="text-sm text-red-700 dark:text-red-400 font-semibold mb-1">Role</p>
-              <p className="text-lg font-bold text-red-900 dark:text-red-200">{admin?.role}</p>
-            </div>
+        {/* Admin Profile Card */}
+        <div className="rounded-lg border border-amber-200/70 dark:border-amber-900/40 bg-card shadow-card p-6">
+          <h2 className="text-sm font-semibold text-foreground mb-4">Admin Profile</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            {[
+              { label: 'Email', value: admin?.email },
+              { label: 'Admin ID', value: admin?.userCode },
+              { label: 'Role', value: admin?.role },
+            ].map((item) => (
+              <div key={item.label} className="rounded-md bg-muted/50 px-4 py-3">
+                <p className="text-xs text-muted-foreground mb-1">{item.label}</p>
+                <p className="text-sm font-medium text-foreground font-mono">{item.value}</p>
+              </div>
+            ))}
           </div>
         </div>
 
-        {/* Admin Functions */}
-        <div className="grid md:grid-cols-2 gap-8">
-          {/* User Management */}
-          <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200/50 dark:border-zinc-800/50 shadow-lg p-8">
-            <div className="text-4xl mb-4">👥</div>
-            <h3 className="text-xl font-bold text-zinc-900 dark:text-white mb-4">User Management</h3>
-            <p className="text-zinc-600 dark:text-zinc-400 mb-6">
-              Manage all user accounts, roles, and permissions
-            </p>
-            <button className="w-full px-4 py-3 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-700 hover:to-blue-700 text-white rounded-lg font-semibold transition-all">
-              Manage Users
-            </button>
-          </div>
-
-          {/* Agent Management */}
-          <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200/50 dark:border-zinc-800/50 shadow-lg p-8">
-            <div className="text-4xl mb-4">🤖</div>
-            <h3 className="text-xl font-bold text-zinc-900 dark:text-white mb-4">Agent Management</h3>
-            <p className="text-zinc-600 dark:text-zinc-400 mb-6">
-              Manage all agent accounts and their activities
-            </p>
-            <button className="w-full px-4 py-3 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white rounded-lg font-semibold transition-all">
-              Manage Agents
-            </button>
-          </div>
-
-          {/* System Stats */}
-          <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200/50 dark:border-zinc-800/50 shadow-lg p-8">
-            <div className="text-4xl mb-4">📊</div>
-            <h3 className="text-xl font-bold text-zinc-900 dark:text-white mb-4">System Statistics</h3>
-            <p className="text-zinc-600 dark:text-zinc-400 mb-6">
-              View system performance and analytics
-            </p>
-            <button className="w-full px-4 py-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white rounded-lg font-semibold transition-all">
-              View Stats
-            </button>
-          </div>
-
-          {/* Settings */}
-          <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200/50 dark:border-zinc-800/50 shadow-lg p-8">
-            <div className="text-4xl mb-4">⚙️</div>
-            <h3 className="text-xl font-bold text-zinc-900 dark:text-white mb-4">System Settings</h3>
-            <p className="text-zinc-600 dark:text-zinc-400 mb-6">
-              Configure system settings and policies
-            </p>
-            <button className="w-full px-4 py-3 bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 text-white rounded-lg font-semibold transition-all">
-              Open Settings
-            </button>
+        {/* Admin Actions Grid */}
+        <div>
+          <h2 className="text-sm font-semibold text-foreground mb-4">Admin Controls</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {actions.map((action) => (
+              <div key={action.title} className="rounded-lg border border-border bg-card shadow-card p-5 hover:shadow-card-hover transition-shadow">
+                <div className="flex items-start gap-4">
+                  <div className={`rounded-md ${action.bg} p-2 shrink-0`}>
+                    <action.icon className={`h-5 w-5 ${action.color}`} />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <h3 className="text-sm font-semibold text-foreground">{action.title}</h3>
+                    <p className="mt-1 text-xs text-muted-foreground">{action.description}</p>
+                    <button className="mt-3 inline-flex h-7 items-center rounded-md border border-input bg-background px-3 text-xs font-medium text-foreground shadow-xs hover:bg-accent transition-colors">
+                      {action.label}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
 
-        {/* Footer Actions */}
-        <div className="mt-12 text-center">
-          <Link href="/">
-            <button className="text-amber-600 dark:text-amber-400 font-semibold hover:underline">
-              ← Back to Home
-            </button>
-          </Link>
+        <div className="pt-4 border-t border-border">
+          <Link href="/" className="text-xs text-muted-foreground hover:text-foreground transition-colors">← Back to Home</Link>
         </div>
       </div>
-    </main>
+    </div>
   )
 }

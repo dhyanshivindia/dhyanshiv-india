@@ -2,59 +2,255 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  color-scheme: dark;
-  --space-section: 4rem;
-  --space-container: 1.5rem;
-}
+/* ============================================================
+   DESIGN SYSTEM — CSS VARIABLES
+   Inspired by shadcn/ui · Tabler · Stripe · Linear
+   ============================================================ */
 
-[data-layout-mode="compact"] {
-  --space-section: 2.5rem;
-  --space-container: 1rem;
-}
+@layer base {
+  :root {
+    /* Base colors */
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
 
-[data-layout-mode="immersive"] {
-  --space-section: 6rem;
-  --space-container: 2rem;
-}
+    /* Brand (User theme: cyan-blue) */
+    --primary: 192 91% 36%;
+    --primary-foreground: 0 0% 100%;
 
-html {
-  scroll-behavior: smooth;
-}
+    /* Subtle accents */
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
 
-body {
-  min-height: 100vh;
-}
+    /* Danger */
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
 
-* {
-  box-sizing: border-box;
-}
+    /* Borders & Inputs */
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 192 91% 36%;
 
-button,
-input,
-textarea,
-select {
-  font: inherit;
-}
+    /* Border radius */
+    --radius: 0.5rem;
 
-.page-shell {
-  max-width: 7xl;
-  margin-left: auto;
-  margin-right: auto;
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
-}
+    /* Role-based theme tokens */
+    --user-primary: 192 91% 36%;       /* cyan-600 */
+    --admin-primary: 38 92% 50%;       /* amber-500 */
+    --agent-primary: 160 84% 39%;      /* emerald-600 */
 
-@media (min-width: 640px) {
-  .page-shell {
-    padding-left: 2rem;
-    padding-right: 2rem;
+    /* Spacing */
+    --space-section: 4rem;
+    --space-container: 1.5rem;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 192 91% 50%;
+    --primary-foreground: 222.2 84% 4.9%;
+
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 62.8% 50%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 192 91% 50%;
+  }
+
+  [data-layout-mode="compact"] {
+    --space-section: 2.5rem;
+    --space-container: 1rem;
+  }
+
+  [data-layout-mode="immersive"] {
+    --space-section: 6rem;
+    --space-container: 2rem;
+  }
+
+  * {
+    @apply border-border;
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    min-height: 100vh;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+  button, input, textarea, select {
+    font: inherit;
   }
 }
 
-@media (min-width: 1024px) {
+/* ============================================================
+   TYPOGRAPHY SYSTEM
+   ============================================================ */
+
+@layer base {
+  h1 { @apply scroll-m-20 text-2xl font-semibold tracking-tight; }
+  h2 { @apply scroll-m-20 text-xl font-semibold tracking-tight; }
+  h3 { @apply scroll-m-20 text-lg font-semibold; }
+  h4 { @apply scroll-m-20 text-base font-semibold; }
+}
+
+/* ============================================================
+   COMPONENT PATTERNS
+   ============================================================ */
+
+@layer components {
+  /* Page shell container */
   .page-shell {
-    padding-left: 3rem;
-    padding-right: 3rem;
+    @apply mx-auto max-w-7xl px-4 sm:px-6 lg:px-8;
+  }
+
+  /* Sidebar layout */
+  .sidebar-layout {
+    @apply flex min-h-screen;
+  }
+
+  /* Card variants */
+  .ds-card {
+    @apply rounded-lg border border-border bg-card text-card-foreground shadow-card;
+  }
+
+  .ds-card-interactive {
+    @apply ds-card transition-shadow duration-200 hover:shadow-card-hover cursor-pointer;
+  }
+
+  /* Auth page wrapper */
+  .auth-page {
+    @apply min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 dark:from-zinc-950 dark:to-zinc-900 flex items-center justify-center p-4;
+  }
+
+  .auth-card {
+    @apply w-full max-w-md bg-white dark:bg-zinc-900 rounded-xl border border-border shadow-modal p-8;
+  }
+
+  /* Dashboard wrapper */
+  .dashboard-page {
+    @apply min-h-screen bg-zinc-50 dark:bg-zinc-950;
+  }
+
+  /* Stat card */
+  .stat-card {
+    @apply ds-card p-6 flex flex-col gap-2;
+  }
+
+  /* Section heading */
+  .section-heading {
+    @apply text-sm font-semibold uppercase tracking-wider text-muted-foreground mb-4;
+  }
+
+  /* Data table */
+  .data-table {
+    @apply w-full border-collapse text-sm;
+  }
+
+  .data-table th {
+    @apply text-left font-medium text-muted-foreground border-b border-border px-4 py-3 bg-muted/30;
+  }
+
+  .data-table td {
+    @apply px-4 py-3 border-b border-border;
+  }
+
+  .data-table tr:last-child td {
+    @apply border-0;
+  }
+
+  .data-table tr:hover td {
+    @apply bg-muted/20;
+  }
+
+  /* Status badges */
+  .badge-success { @apply inline-flex items-center rounded-md px-2 py-0.5 text-xs font-medium bg-green-50 text-green-700 ring-1 ring-inset ring-green-600/20 dark:bg-green-900/20 dark:text-green-400 dark:ring-green-500/30; }
+  .badge-warning { @apply inline-flex items-center rounded-md px-2 py-0.5 text-xs font-medium bg-yellow-50 text-yellow-700 ring-1 ring-inset ring-yellow-600/20 dark:bg-yellow-900/20 dark:text-yellow-400 dark:ring-yellow-500/30; }
+  .badge-error   { @apply inline-flex items-center rounded-md px-2 py-0.5 text-xs font-medium bg-red-50 text-red-700 ring-1 ring-inset ring-red-600/20 dark:bg-red-900/20 dark:text-red-400 dark:ring-red-500/30; }
+  .badge-info    { @apply inline-flex items-center rounded-md px-2 py-0.5 text-xs font-medium bg-blue-50 text-blue-700 ring-1 ring-inset ring-blue-600/20 dark:bg-blue-900/20 dark:text-blue-400 dark:ring-blue-500/30; }
+  .badge-neutral { @apply inline-flex items-center rounded-md px-2 py-0.5 text-xs font-medium bg-zinc-100 text-zinc-700 ring-1 ring-inset ring-zinc-600/20 dark:bg-zinc-800 dark:text-zinc-400 dark:ring-zinc-500/30; }
+
+  /* Form helpers */
+  .form-label {
+    @apply block text-sm font-medium text-foreground mb-1.5;
+  }
+
+  .form-hint {
+    @apply mt-1.5 text-xs text-muted-foreground;
+  }
+
+  .form-error {
+    @apply mt-1.5 text-xs text-destructive;
+  }
+
+  /* Input base */
+  .ds-input {
+    @apply flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs transition-colors
+    file:border-0 file:bg-transparent file:text-sm file:font-medium
+    placeholder:text-muted-foreground
+    focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring
+    disabled:cursor-not-allowed disabled:opacity-50;
+  }
+
+  /* Divider */
+  .ds-divider {
+    @apply flex items-center gap-3 text-xs text-muted-foreground;
+  }
+
+  .ds-divider::before,
+  .ds-divider::after {
+    content: '';
+    @apply flex-1 h-px bg-border;
+  }
+}
+
+/* ============================================================
+   SCROLLBAR STYLING
+   ============================================================ */
+
+@layer utilities {
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--border)) transparent;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background-color: hsl(var(--border));
+    border-radius: 3px;
   }
 }

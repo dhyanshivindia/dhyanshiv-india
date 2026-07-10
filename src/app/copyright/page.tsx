@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 export default function CopyrightPage() {
   return (
@@ -12,31 +12,32 @@ export default function CopyrightPage() {
           </p>
         </div>
 
-        <section className="mt-6 grid gap-5">
-          <div className="rounded-2xl bg-white/90 dark:bg-zinc-900/90 shadow-xl border border-zinc-200/50 p-5 sm:p-8 md:p-12">
-            <h2 className="text-2xl font-semibold">Ownership</h2>
-            <p className="mt-3 text-slate-700 dark:text-slate-300">
+        <div className="space-y-4">
+          <div className="rounded-lg border border-border bg-card shadow-card p-5 sm:p-6">
+            <h2 className="text-base font-semibold text-foreground">Ownership</h2>
+            <p className="mt-3 text-muted-foreground">
               Trademarks, logos, photographs, and written materials displayed are the exclusive property of DHYANSHIV INDIA PRIVATE LIMITED or our licensed partners.
             </p>
           </div>
 
-          <div className="rounded-2xl bg-white/90 dark:bg-zinc-900/90 shadow-xl border border-zinc-200/50 p-5 sm:p-8 md:p-12">
-            <h2 className="text-2xl font-semibold">Usage terms</h2>
-            <p className="mt-3 text-slate-700 dark:text-slate-300">
+          <div className="rounded-lg border border-border bg-card shadow-card p-5 sm:p-6">
+            <h2 className="text-base font-semibold text-foreground">Usage terms</h2>
+            <p className="mt-3 text-muted-foreground">
               You may not reproduce, distribute, or exploit content from this website without our express written permission.
             </p>
           </div>
 
-          <div className="rounded-2xl bg-white/90 dark:bg-zinc-900/90 shadow-xl border border-zinc-200/50 p-5 sm:p-8 md:p-12">
-            <h2 className="text-2xl font-semibold">DMCA</h2>
-            <p className="mt-3 text-slate-700 dark:text-slate-300">
+          <div className="rounded-lg border border-border bg-card shadow-card p-5 sm:p-6">
+            <h2 className="text-base font-semibold text-foreground">DMCA</h2>
+            <p className="mt-3 text-muted-foreground">
               If you believe your copyrighted work has been used improperly, contact support@dhyanshivindia.in so we can promptly review and resolve the issue.
             </p>
           </div>
-        </section>
+        </div>
       </div>
     </div>
   )
 }
+
 
 
