@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
+import { generateUserCode } from '@/lib/user-code'
 
 export const dynamic = 'force-dynamic'
 
@@ -21,9 +22,26 @@ export async function POST(req: NextRequest) {
     })
 
     if (!user) {
+      // Generate unique user code
+      let userCode: string
+      let isUnique = false
+      let attempts = 0
+
+      while (!isUnique && attempts < 10) {
+        userCode = generateUserCode('user')
+        const existingCode = await prisma.user.findUnique({
+          where: { userCode },
+        })
+        if (!existingCode) {
+          isUnique = true
+        }
+        attempts++
+      }
+
       user = await prisma.user.create({
         data: {
           email,
+          userCode: userCode!,
           name: fullName,
           fullName,
           dob: new Date(dob),

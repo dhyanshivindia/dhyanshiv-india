@@ -3,6 +3,7 @@ import { getServerSession } from 'next-auth'
 import Razorpay from 'razorpay'
 import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
+import { generateUserCode } from '@/lib/user-code'
 
 export const dynamic = 'force-dynamic'
 
@@ -33,9 +34,25 @@ export async function POST(request: NextRequest) {
     notes: { serviceId: service.id, email: session.user.email },
   })
 
+  // Generate unique user code for new users
+  let userCode: string
+  let isUnique = false
+  let attempts = 0
+
+  while (!isUnique && attempts < 10) {
+    userCode = generateUserCode('user')
+    const existingCode = await prisma.user.findUnique({
+      where: { userCode },
+    })
+    if (!existingCode) {
+      isUnique = true
+    }
+    attempts++
+  }
+
   const user = await prisma.user.upsert({
     where: { email: session.user.email },
-    create: { email: session.user.email, name: session.user.name },
+    create: { email: session.user.email, name: session.user.name, userCode: userCode! },
     update: { name: session.user.name },
   })
 

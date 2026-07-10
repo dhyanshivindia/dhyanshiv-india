@@ -82,7 +82,7 @@ export default function DashboardPage() {
   const usagePercent = usage ? Math.round((usage.requestsUsed / usage.requestsLimit) * 100) : 0
 
   return (
-    <div className="space-y-8">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-cyan-50 dark:from-slate-950 dark:via-zinc-900 dark:to-slate-950 space-y-8 p-8">
       {error && (
         <div className="p-4 rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-900 text-red-700 dark:text-red-400">
           {error}

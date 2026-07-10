@@ -60,8 +60,16 @@ export default function AdminPage() {
     { name: 'Finance Plus Inc', date: '2026-07-04', service: 'Workflow Automation' },
   ]
 
+  // Color mapping for metrics
+  const colorMap: Record<string, { text: string; bg: string }> = {
+    green: { text: 'text-green-600 dark:text-green-400', bg: 'bg-green-50 dark:bg-green-900/20' },
+    blue: { text: 'text-blue-600 dark:text-blue-400', bg: 'bg-blue-50 dark:bg-blue-900/20' },
+    purple: { text: 'text-purple-600 dark:text-purple-400', bg: 'bg-purple-50 dark:bg-purple-900/20' },
+    cyan: { text: 'text-cyan-600 dark:text-cyan-400', bg: 'bg-cyan-50 dark:bg-cyan-900/20' },
+  }
+
   return (
-    <div className="space-y-8">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-cyan-50 dark:from-slate-950 dark:via-zinc-900 dark:to-slate-950 space-y-8 p-8">
       <div>
         <h1 className="text-2xl font-bold text-zinc-900 dark:text-white">
           Admin Analytics
@@ -73,22 +81,25 @@ export default function AdminPage() {
 
       {/* Key Metrics */}
       <div className="grid gap-4 sm:grid-cols-4">
-        {metrics.map((metric) => (
+        {metrics.map((metric) => {
+          const colors = colorMap[metric.color] || colorMap.cyan
+          return (
           <div
             key={metric.label}
-            className="rounded-2xl border border-zinc-200 bg-white p-6 dark:border-white/10 dark:bg-zinc-800/50"
+            className={`rounded-2xl border border-zinc-200 dark:border-zinc-800 ${colors.bg} bg-white dark:bg-zinc-900/50 p-6 shadow-lg`}
           >
             <p className="text-sm font-medium text-zinc-600 dark:text-zinc-400">
               {metric.label}
             </p>
-            <p className={`mt-2 text-3xl font-bold text-${metric.color}-600 dark:text-${metric.color}-400`}>
+            <p className={`mt-2 text-3xl font-bold ${colors.text}`}>
               {metric.value}
             </p>
             <p className="mt-2 text-xs text-zinc-600 dark:text-zinc-400">
               {metric.change}
             </p>
           </div>
-        ))}
+        )
+        })}
       </div>
 
       {/* Service Performance */}

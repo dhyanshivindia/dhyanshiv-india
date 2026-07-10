@@ -2,216 +2,150 @@
 
 import Link from 'next/link'
 import { useState } from 'react'
-import { useSearchParams } from 'next/navigation'
 import { signIn } from 'next-auth/react'
 
 export default function SignInPage() {
-  const searchParams = useSearchParams()
-  const tier = searchParams.get('tier') || 'pro'
   const [email, setEmail] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [status, setStatus] = useState('')
+  const [error, setError] = useState('')
+  const [step, setStep] = useState<'email' | 'otp'>('email')
+  const [otp, setOtp] = useState('')
 
-  const callbackUrl = `/onboarding?tier=${tier}`
+  const handleSendMagicLink = async () => {
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      setError('Please enter a valid email')
+      return
+    }
 
-  const onGoogle = async () => {
-    setStatus('')
     setIsLoading(true)
+    setError('')
+    setStatus('')
+
     try {
-      await signIn('google', { callbackUrl })
+      await signIn('email', { email, redirect: false })
+      setStatus('✓ Check your email for the sign-in link')
+      setStep('otp')
+    } catch (err) {
+      setError('Failed to send sign-in link. Please try again.')
     } finally {
       setIsLoading(false)
     }
   }
 
-  const onMagicLink = async () => {
-    setStatus('')
+  const handleGoogleSignIn = async () => {
     setIsLoading(true)
+    setError('')
     try {
-      await signIn('email', { email, callbackUrl })
+      await signIn('google', { callbackUrl: '/dashboard' })
+    } catch (err) {
+      setError('Google sign-in failed')
     } finally {
       setIsLoading(false)
     }
   }
 
   return (
-    <main className="min-h-screen grid grid-cols-1 lg:grid-cols-12 bg-white dark:bg-zinc-950">
-      {/* LEFT: Auth Section (5 columns) */}
-      <section className="lg:col-span-5 flex flex-col justify-between p-8 sm:p-12 md:p-16 bg-white dark:bg-zinc-950">
-        <div className="flex flex-col gap-10">
-          {/* Header */}
-          <header className="flex items-start justify-between gap-6">
-            <Link
-              href="/"
-              className="inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-white px-4 py-2 text-sm font-medium text-zinc-700 hover:bg-zinc-50 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-200 dark:hover:bg-zinc-800"
-            >
-              ← Return home
-            </Link>
-
-            <div className="text-right">
-              <p className="text-xs font-semibold uppercase tracking-[0.35em] text-cyan-700 dark:text-cyan-400">
-                DHYANSHIV INDIA
-              </p>
-              <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-300">
-                Secure access to compliance-ready services.
-              </p>
-            </div>
-          </header>
-
-          {/* Form Container */}
-          <div className="max-w-md w-full mx-auto my-auto flex flex-col justify-center">
-            <div className="text-center md:text-left">
-              <h1 className="text-3xl font-bold tracking-tight text-zinc-900 dark:text-white sm:text-4xl">
-                Sign in
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-cyan-50 dark:from-zinc-950 dark:via-zinc-900 dark:to-cyan-950">
+      {/* Main Content */}
+      <div className="flex items-center justify-center min-h-[calc(100vh-80px)] px-4 py-8">
+        <div className="w-full max-w-md">
+          {/* Card */}
+          <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200/50 dark:border-zinc-800/50 p-8 shadow-xl">
+            {/* Title */}
+            <div className="mb-8">
+              <h1 className="text-3xl font-bold text-zinc-900 dark:text-white mb-2">
+                Sign In
               </h1>
-              <p className="mt-3 text-sm text-zinc-600 dark:text-zinc-300">
-                Choose your preferred sign-in method. Authentication unlocks secure checkout and managed compliance workflows.
+              <p className="text-sm text-zinc-600 dark:text-zinc-400">
+                Access your DHYANSHIV account to manage compliance and services
               </p>
             </div>
 
-            {/* Google */}
-            <div className="mt-8">
-              <button
-                type="button"
-                onClick={onGoogle}
-                disabled={isLoading}
-                className="w-full rounded-xl bg-white text-zinc-700 border border-zinc-200 hover:bg-zinc-50 px-4 py-3 text-sm font-semibold shadow-sm transition disabled:opacity-60 dark:bg-zinc-900 dark:text-zinc-200 dark:border-zinc-800 dark:hover:bg-zinc-800"
-              >
-                {isLoading ? 'Redirecting…' : 'Continue with Google'}
-              </button>
-            </div>
+            {/* Google Button */}
+            <button
+              onClick={handleGoogleSignIn}
+              disabled={isLoading}
+              className="w-full flex items-center justify-center gap-3 bg-white dark:bg-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-700 border border-zinc-200 dark:border-zinc-700 rounded-xl py-3 px-4 font-semibold text-zinc-900 dark:text-white transition-colors disabled:opacity-60"
+            >
+              <svg className="w-5 h-5" viewBox="0 0 24 24">
+                <path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                <path fill="currentColor" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                <path fill="currentColor" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                <path fill="currentColor" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+              </svg>
+              {isLoading ? 'Signing in...' : 'Continue with Google'}
+            </button>
 
             {/* Divider */}
-            <div className="mt-6 flex items-center gap-4">
-              <div className="h-px flex-1 bg-zinc-200 dark:bg-zinc-800" />
-              <p className="text-xs font-semibold text-zinc-500 dark:text-zinc-400">Or continue with email</p>
-              <div className="h-px flex-1 bg-zinc-200 dark:bg-zinc-800" />
+            <div className="flex items-center gap-3 my-6">
+              <div className="flex-1 h-px bg-zinc-200 dark:bg-zinc-800"></div>
+              <span className="text-xs text-zinc-500 dark:text-zinc-500 font-semibold">OR</span>
+              <div className="flex-1 h-px bg-zinc-200 dark:bg-zinc-800"></div>
             </div>
 
-            {/* Email Input */}
-            <div className="mt-6">
-              <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-200" htmlFor="email">
-                Email
-              </label>
-              <input
-                id="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                type="email"
-                inputMode="email"
-                autoComplete="email"
-                placeholder="you@company.com"
-                disabled={isLoading}
-                className="mt-2 w-full rounded-xl bg-white border-zinc-200 text-zinc-900 placeholder-zinc-400 px-4 py-3 text-sm outline-none focus:ring-4 focus:ring-blue-600/20 border transition dark:bg-zinc-900 dark:border-zinc-800 dark:text-white dark:placeholder-zinc-500"
-              />
-            </div>
+            {/* Email Form */}
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-semibold text-zinc-900 dark:text-white mb-2">
+                  Email Address
+                </label>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="you@company.com"
+                  disabled={isLoading || step === 'otp'}
+                  className="w-full px-4 py-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white placeholder-zinc-500 dark:placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-cyan-600 focus:border-transparent transition-all disabled:opacity-60"
+                />
+              </div>
 
-            {/* Magic Link CTA */}
-            <div className="mt-5">
+              {/* Send Magic Link Button */}
               <button
-                type="button"
-                onClick={onMagicLink}
-                disabled={isLoading}
-                className="w-full rounded-xl bg-zinc-900 text-white hover:bg-zinc-800 px-4 py-3 text-sm font-semibold transition disabled:opacity-60 dark:bg-white dark:text-zinc-900 dark:hover:bg-zinc-100"
+                onClick={handleSendMagicLink}
+                disabled={isLoading || step === 'otp'}
+                className="w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-700 hover:to-blue-700 disabled:opacity-60 text-white font-semibold py-3 px-4 rounded-xl transition-all"
               >
-                {isLoading ? 'Sending magic link…' : 'Send Magic Link'}
+                {isLoading ? '✓ Sending...' : '✓ Send Sign-In Link'}
               </button>
             </div>
 
-            {status ? <p className="mt-4 text-sm text-cyan-700 dark:text-cyan-400">{status}</p> : null}
-
-            {isLoading ? (
-              <div className="mt-5 rounded-xl border border-zinc-200/70 bg-white/70 px-4 py-3 dark:border-zinc-800 dark:bg-zinc-900/70">
-                <div className="flex items-center justify-center gap-3">
-                  <div className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-cyan-500/70 border-t-transparent" />
-                  <span className="text-sm font-medium text-zinc-700 dark:text-zinc-200">Working securely…</span>
-                </div>
+            {/* Messages */}
+            {status && (
+              <div className="mt-4 p-3 rounded-lg bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800/50 text-sm text-green-700 dark:text-green-400">
+                {status}
               </div>
-            ) : null}
-          </div>
-        </div>
+            )}
 
-        {/* Footer note */}
-        <div className="pt-8 text-center md:text-left">
-          <p className="text-xs leading-5 text-zinc-500 dark:text-zinc-400">
-            Secure corporate sign-in for DHYANSHIV INDIA services.
-          </p>
-        </div>
-      </section>
-
-      {/* RIGHT: Branding Showcase (7 columns) */}
-      <aside className="hidden lg:flex lg:col-span-7 relative bg-zinc-50 dark:bg-zinc-900 border-l border-zinc-200/60 dark:border-zinc-800/60">
-        <div className="absolute inset-0 bg-grid-zinc-200/50 dark:bg-grid-zinc-800/30" />
-
-        {/* Cinematic bento overlay */}
-        <div className="relative w-full h-full p-10 sm:p-14 md:p-16">
-          <div className="absolute inset-0 pointer-events-none">
-            <div className="absolute -left-20 top-10 h-72 w-72 rounded-full bg-cyan-500/10 blur-3xl" />
-            <div className="absolute -bottom-10 -right-20 h-72 w-72 rounded-full bg-purple-500/10 blur-3xl" />
-          </div>
-
-          <div className="h-full flex flex-col justify-center">
-            <div className="max-w-xl mx-auto">
-              <p className="text-xs font-semibold uppercase tracking-[0.35em] text-cyan-700 dark:text-cyan-400">
-                Corporate Trust
-              </p>
-              <h2 className="mt-4 text-4xl font-bold tracking-tight text-zinc-900 dark:text-white">
-                Elite access. Compliance-first delivery.
-              </h2>
-              <p className="mt-4 text-sm leading-6 text-zinc-600 dark:text-zinc-300">
-                Sign-in unlocks a secure service journey—compliance management, corporate tech delivery, and automated payment workflows.
-              </p>
-
-              {/* Feature list */}
-              <div className="mt-10 space-y-4">
-                <div className="rounded-2xl border border-zinc-200/70 bg-white/70 backdrop-blur-md p-5 dark:border-zinc-800/70 dark:bg-zinc-950/40">
-                  <div className="flex items-center justify-between gap-4">
-                    <p className="text-sm font-semibold text-zinc-900 dark:text-white">Compliance Automation</p>
-                    <span className="rounded-full bg-cyan-500/10 px-3 py-1 text-xs font-medium text-cyan-700 dark:text-cyan-400">
-                      Auditable
-                    </span>
-                  </div>
-                  <p className="mt-2 text-xs leading-5 text-zinc-600 dark:text-zinc-300">
-                    Governed workflows for filings, documentation pipeline, and deadline-aware dashboards.
-                  </p>
-                </div>
-
-                <div className="rounded-2xl border border-zinc-200/70 bg-white/70 backdrop-blur-md p-5 dark:border-zinc-800/70 dark:bg-zinc-950/40">
-                  <div className="flex items-center justify-between gap-4">
-                    <p className="text-sm font-semibold text-zinc-900 dark:text-white">Corporate Tech Delivery</p>
-                    <span className="rounded-full bg-purple-500/10 px-3 py-1 text-xs font-medium text-purple-700 dark:text-purple-400">
-                      Enterprise
-                    </span>
-                  </div>
-                  <p className="mt-2 text-xs leading-5 text-zinc-600 dark:text-zinc-300">
-                    Secure implementation with reliable onboarding and operational execution.
-                  </p>
-                </div>
-
-                <div className="rounded-2xl border border-zinc-200/70 bg-white/70 backdrop-blur-md p-5 dark:border-zinc-800/70 dark:bg-zinc-950/40">
-                  <div className="flex items-center justify-between gap-4">
-                    <p className="text-sm font-semibold text-zinc-900 dark:text-white">Automated Payments</p>
-                    <span className="rounded-full bg-cyan-500/10 px-3 py-1 text-xs font-medium text-cyan-700 dark:text-cyan-400">
-                      Razorpay-ready
-                    </span>
-                  </div>
-                  <p className="mt-2 text-xs leading-5 text-zinc-600 dark:text-zinc-300">
-                    Order lifecycle tracking, webhook reconciliation, and receipt continuity.
-                  </p>
-                </div>
-
-                {/* Verified Access Pill (isolated, no border overlap glitch) */}
-                <div className="mt-6 flex justify-center">
-                  <div className="inline-flex items-center px-3 py-1 text-xs font-medium rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
-                    Verified access
-                  </div>
-                </div>
+            {error && (
+              <div className="mt-4 p-3 rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800/50 text-sm text-red-700 dark:text-red-400">
+                {error}
               </div>
+            )}
+
+            {/* Links */}
+            <div className="mt-6 space-y-3 text-center text-sm">
+              <p>
+                <Link href="/forgot-password" className="text-cyan-600 dark:text-cyan-400 hover:underline font-semibold">
+                  Forgot password?
+                </Link>
+              </p>
+              <p className="text-zinc-600 dark:text-zinc-400">
+                Don't have an account?{' '}
+                <Link href="/signup" className="text-blue-600 dark:text-blue-400 hover:underline font-semibold">
+                  Create one
+                </Link>
+              </p>
             </div>
           </div>
+
+          {/* Footer */}
+          <div className="mt-8 text-center text-xs text-zinc-500 dark:text-zinc-500">
+            <p>Secure, encrypted authentication</p>
+            <p className="mt-1">24/7 Support: <a href="https://wa.me/919173011851" className="text-cyan-600 dark:text-cyan-400 hover:underline">WhatsApp</a></p>
+          </div>
         </div>
-      </aside>
-    </main>
+      </div>
+    </div>
   )
 }
-
