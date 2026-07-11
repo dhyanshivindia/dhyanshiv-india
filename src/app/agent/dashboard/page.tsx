@@ -45,12 +45,12 @@ export default function AgentDashboard() {
   }
 
   const actions = [
-    { icon: ClipboardList, title: 'Manage Services', description: 'View and manage the services you provide', label: 'My Services', color: 'text-emerald-600 dark:text-emerald-400', bg: 'bg-emerald-50 dark:bg-emerald-900/20' },
-    { icon: TrendingUp, title: 'Performance', description: 'Track your performance and earnings', label: 'View Metrics', color: 'text-teal-600 dark:text-teal-400', bg: 'bg-teal-50 dark:bg-teal-900/20' },
-    { icon: Users2, title: 'My Clients', description: 'Manage client relationships and interactions', label: 'View Clients', color: 'text-blue-600 dark:text-blue-400', bg: 'bg-blue-50 dark:bg-blue-900/20' },
-    { icon: DollarSign, title: 'Earnings', description: 'Track your earnings and payouts', label: 'View Earnings', color: 'text-green-600 dark:text-green-400', bg: 'bg-green-50 dark:bg-green-900/20' },
-    { icon: MessageSquare, title: 'Messages', description: 'Communicate with clients and support team', label: 'View Messages', color: 'text-purple-600 dark:text-purple-400', bg: 'bg-purple-50 dark:bg-purple-900/20' },
-    { icon: Settings, title: 'Settings', description: 'Update your profile and preferences', label: 'Open Settings', color: 'text-zinc-600 dark:text-zinc-400', bg: 'bg-zinc-100 dark:bg-zinc-800' },
+    { icon: ClipboardList, title: 'Manage Services', description: 'View and manage the services you provide', label: 'My Services', href: '/services', color: 'text-emerald-600 dark:text-emerald-400', bg: 'bg-emerald-50 dark:bg-emerald-900/20' },
+    { icon: TrendingUp, title: 'Performance', description: 'Track your performance and earnings', label: 'View Metrics', href: '/dashboard', color: 'text-teal-600 dark:text-teal-400', bg: 'bg-teal-50 dark:bg-teal-900/20' },
+    { icon: Users2, title: 'My Clients', description: 'Manage client relationships and interactions', label: 'View Clients', href: '/get-connected', color: 'text-blue-600 dark:text-blue-400', bg: 'bg-blue-50 dark:bg-blue-900/20' },
+    { icon: DollarSign, title: 'Earnings', description: 'Track your earnings and payouts', label: 'View Earnings', href: '/dashboard', color: 'text-green-600 dark:text-green-400', bg: 'bg-green-50 dark:bg-green-900/20' },
+    { icon: MessageSquare, title: 'Messages', description: 'Communicate with clients and support team', label: 'View Messages', href: '/get-connected', color: 'text-purple-600 dark:text-purple-400', bg: 'bg-purple-50 dark:bg-purple-900/20' },
+    { icon: Settings, title: 'Settings', description: 'Update your profile and preferences', label: 'Open Settings', href: '/settings', color: 'text-zinc-600 dark:text-zinc-400', bg: 'bg-zinc-100 dark:bg-zinc-800' },
   ]
 
   return (
@@ -110,9 +110,9 @@ export default function AgentDashboard() {
                 </div>
                 <h3 className="text-sm font-semibold text-foreground">{action.title}</h3>
                 <p className="mt-1 text-xs text-muted-foreground">{action.description}</p>
-                <button className="mt-3 inline-flex h-7 items-center rounded-md border border-input bg-background px-3 text-xs font-medium text-foreground shadow-xs hover:bg-accent transition-colors">
+                <Link href={action.href} className="mt-3 inline-flex h-7 items-center rounded-md border border-input bg-background px-3 text-xs font-medium text-foreground shadow-xs hover:bg-accent transition-colors">
                   {action.label}
-                </button>
+                </Link>
               </div>
             ))}
           </div>

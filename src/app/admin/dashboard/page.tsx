@@ -49,6 +49,7 @@ export default function AdminDashboard() {
       title: 'User Management',
       description: 'Manage all user accounts, roles, and permissions',
       label: 'Manage Users',
+      href: '/dashboard',
       color: 'text-blue-600 dark:text-blue-400',
       bg: 'bg-blue-50 dark:bg-blue-900/20',
     },
@@ -57,6 +58,7 @@ export default function AdminDashboard() {
       title: 'Agent Management',
       description: 'Manage all agent accounts and their activities',
       label: 'Manage Agents',
+      href: '/agent/signup',
       color: 'text-emerald-600 dark:text-emerald-400',
       bg: 'bg-emerald-50 dark:bg-emerald-900/20',
     },
@@ -65,6 +67,7 @@ export default function AdminDashboard() {
       title: 'System Statistics',
       description: 'View system performance and analytics',
       label: 'View Stats',
+      href: '/dashboard/admin',
       color: 'text-purple-600 dark:text-purple-400',
       bg: 'bg-purple-50 dark:bg-purple-900/20',
     },
@@ -73,6 +76,7 @@ export default function AdminDashboard() {
       title: 'System Settings',
       description: 'Configure system settings and policies',
       label: 'Open Settings',
+      href: '/settings',
       color: 'text-amber-600 dark:text-amber-400',
       bg: 'bg-amber-50 dark:bg-amber-900/20',
     },
@@ -139,9 +143,9 @@ export default function AdminDashboard() {
                   <div className="flex-1 min-w-0">
                     <h3 className="text-sm font-semibold text-foreground">{action.title}</h3>
                     <p className="mt-1 text-xs text-muted-foreground">{action.description}</p>
-                    <button className="mt-3 inline-flex h-7 items-center rounded-md border border-input bg-background px-3 text-xs font-medium text-foreground shadow-xs hover:bg-accent transition-colors">
+                    <Link href={action.href} className="mt-3 inline-flex h-7 items-center rounded-md border border-input bg-background px-3 text-xs font-medium text-foreground shadow-xs hover:bg-accent transition-colors">
                       {action.label}
-                    </button>
+                    </Link>
                   </div>
                 </div>
               </div>

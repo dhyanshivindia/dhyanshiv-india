@@ -29,6 +29,11 @@ export async function POST(req: NextRequest) {
     const token = crypto.randomBytes(32).toString('hex')
     const expires = new Date(Date.now() + 60 * 60 * 1000)
 
+    // Keep only the latest valid reset token for this identifier.
+    await prisma.verificationToken.deleteMany({
+      where: { identifier: email },
+    })
+
     // Store token in VerificationToken
     await prisma.verificationToken.create({
       data: {
@@ -38,13 +43,26 @@ export async function POST(req: NextRequest) {
       },
     })
 
-    // TODO: Send password reset email with link: /reset-password?token={token}
-    console.log(`Password reset token for ${email}: ${token}`)
+    const resetPath = `/reset-password?token=${token}`
+    const resetUrl = `${req.nextUrl.origin}${resetPath}`
 
-    return NextResponse.json({
+    // TODO: Integrate email provider and send resetUrl to the user email.
+    console.log(`Password reset link for ${email}: ${resetUrl}`)
+
+    const response: {
+      success: boolean
+      message: string
+      debugResetUrl?: string
+    } = {
       success: true,
       message: 'Password reset link sent',
-    })
+    }
+
+    if (process.env.NODE_ENV !== 'production') {
+      response.debugResetUrl = resetPath
+    }
+
+    return NextResponse.json(response)
   } catch (err) {
     console.error('Forgot password error:', err)
     return NextResponse.json(

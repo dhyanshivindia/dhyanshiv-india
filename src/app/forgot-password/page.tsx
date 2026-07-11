@@ -8,6 +8,7 @@ export default function ForgotPasswordPage() {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
   const [status, setStatus] = useState('')
+  const [debugResetUrl, setDebugResetUrl] = useState('')
   const [step, setStep] = useState<'email' | 'success'>('email')
 
   const handleSendReset = async () => {
@@ -19,6 +20,7 @@ export default function ForgotPasswordPage() {
     setIsLoading(true)
     setError('')
     setStatus('')
+    setDebugResetUrl('')
 
     try {
       const res = await fetch('/api/auth/forgot-password', {
@@ -28,7 +30,9 @@ export default function ForgotPasswordPage() {
       })
 
       if (res.ok) {
+        const data = await res.json()
         setStatus('Password reset link sent to your email')
+        setDebugResetUrl(data.debugResetUrl || '')
         setStep('success')
       } else {
         const data = await res.json()
@@ -89,7 +93,15 @@ export default function ForgotPasswordPage() {
                 </svg>
               </div>
               <p className="text-sm text-muted-foreground">{status}</p>
-              <button onClick={() => { setStep('email'); setEmail(''); setStatus(''); }} className="inline-flex h-9 w-full items-center justify-center rounded-md border border-input px-4 py-2 text-sm font-medium text-foreground shadow-xs hover:bg-accent transition-colors">
+              {debugResetUrl && (
+                <p className="text-xs text-muted-foreground">
+                  Development link:{' '}
+                  <Link href={debugResetUrl} className="text-primary hover:underline underline-offset-4">
+                    Open reset page
+                  </Link>
+                </p>
+              )}
+              <button onClick={() => { setStep('email'); setEmail(''); setStatus(''); setDebugResetUrl(''); }} className="inline-flex h-9 w-full items-center justify-center rounded-md border border-input px-4 py-2 text-sm font-medium text-foreground shadow-xs hover:bg-accent transition-colors">
                 Try a different email
               </button>
             </div>
