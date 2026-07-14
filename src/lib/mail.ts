@@ -15,12 +15,11 @@ const parseSmtpUrl = (urlString: string) => {
   }
 }
 
-// Create transporter with explicit TLS configuration for port 587
-// NOTE: For emails to avoid spam on Gmail:
-// 1. Add SPF record: v=spf1 include:gmail.com ~all (in DNS)
-// 2. Enable DKIM in Gmail: https://support.google.com/domains/answer/6147603
-// 3. Configure DMARC: v=DMARC1; p=none; rua=mailto:dmarc@dhyanshivindia.in (in DNS)
-// This ensures email authentication and improves inbox delivery
+// Create transporter with explicit STARTTLS configuration for SMTP port 587.
+// Production expectation: EMAIL_SERVER_SMTP points to the provider endpoint
+// `smtp.stackmail.com` using a URL form like:
+// smtp://mailbox%40dhyanshivindia.in:password@smtp.stackmail.com:587
+// DNS email authentication (SPF/DKIM/DMARC) must be configured at the domain level.
 const getTransporter = () => {
   const smtpUrl = process.env.EMAIL_SERVER_SMTP || ''
   

@@ -1,73 +1,25 @@
-import { NextRequest, NextResponse } from 'next/server'
-import { prisma } from '@/lib/prisma'
-import { verifyPassword } from '@/lib/password'
+import { NextRequest } from 'next/server'
+import { NextResponse } from 'next/server'
 
 export async function POST(request: NextRequest) {
-  try {
-    const { email, password } = await request.json()
+  const url = new URL('/api/v1/auth/admin/login?role=agent&legacy=agent', request.url)
+  const body = await request.text()
 
-    if (!email || !password) {
-      return NextResponse.json(
-        { error: 'Email and password required' },
-        { status: 400 }
-      )
-    }
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'content-type': request.headers.get('content-type') ?? 'application/json',
+      cookie: request.headers.get('cookie') ?? '',
+    },
+    body,
+    cache: 'no-store',
+  })
 
-    // Find agent by email
-    const agent = await prisma.user.findUnique({
-      where: { email },
-    })
-
-    if (!agent || agent.role !== 'agent') {
-      return NextResponse.json(
-        { error: 'Invalid agent credentials' },
-        { status: 401 }
-      )
-    }
-
-    // Check if agent is active
-    if (!agent.isActive) {
-      return NextResponse.json(
-        { error: 'Agent account is inactive' },
-        { status: 401 }
-      )
-    }
-
-    // Verify password
-    if (!agent.password) {
-      return NextResponse.json(
-        { error: 'Invalid agent credentials' },
-        { status: 401 }
-      )
-    }
-
-    const [storedHash, storedSalt] = agent.password.split(':')
-    if (!verifyPassword(password, storedHash, storedSalt)) {
-      return NextResponse.json(
-        { error: 'Invalid agent credentials' },
-        { status: 401 }
-      )
-    }
-
-    // Return agent info
-    return NextResponse.json(
-      {
-        success: true,
-        agent: {
-          id: agent.id,
-          email: agent.email,
-          userCode: agent.userCode,
-          role: agent.role,
-          name: agent.name,
-        },
-      },
-      { status: 200 }
-    )
-  } catch (error) {
-    console.error('Agent signin error:', error)
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    )
-  }
+  const text = await response.text()
+  return new NextResponse(text, {
+    status: response.status,
+    headers: {
+      'content-type': response.headers.get('content-type') ?? 'application/json',
+    },
+  })
 }

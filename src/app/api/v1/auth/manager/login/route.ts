@@ -1,8 +1,7 @@
-import { NextRequest } from 'next/server'
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 
 export async function POST(request: NextRequest) {
-  const url = new URL('/api/v1/auth/admin/login?role=admin&legacy=admin', request.url)
+  const url = new URL('/api/v1/auth/admin/login?role=manager', request.url)
   const body = await request.text()
 
   const response = await fetch(url, {
