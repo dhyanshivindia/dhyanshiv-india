@@ -100,6 +100,7 @@ RAZORPAY_KEY_ID=...
 RAZORPAY_KEY_SECRET=...
 
 # Email
+EMAIL_SERVER_SMTP=smtp://mailbox%40dhyanshivindia.in:<SMTP_PASSWORD>@smtp.stackmail.com:587
 EMAIL_FROM=connect@dhyanshivindia.in
 ADMIN_EMAIL=dhyanshivindia@gmail.com
 ```
