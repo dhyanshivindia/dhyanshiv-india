@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { signOut, useSession } from 'next-auth/react'
 import Link from 'next/link'
 import { Users, Bot, BarChart3, Settings, LogOut, ShieldCheck } from 'lucide-react'
 
@@ -14,25 +15,30 @@ interface AdminInfo {
 
 export default function AdminDashboard() {
   const [admin, setAdmin] = useState<AdminInfo | null>(null)
-  const [loading, setLoading] = useState(true)
+  const { data: session, status } = useSession()
   const router = useRouter()
 
   useEffect(() => {
-    const adminAuth = localStorage.getItem('adminAuth')
-    if (!adminAuth) {
+    if (status === 'unauthenticated') {
       router.push('/admin/signin')
       return
     }
-    setAdmin(JSON.parse(adminAuth))
-    setLoading(false)
-  }, [router])
 
-  const handleLogout = () => {
-    localStorage.removeItem('adminAuth')
-    router.push('/')
+    if (status === 'authenticated' && session?.user) {
+      setAdmin({
+        adminId: (session.user as any).id ?? '',
+        email: session.user.email ?? '',
+        userCode: (session.user as any).id ?? 'N/A',
+        role: (session.user as any).role ?? 'admin',
+      })
+    }
+  }, [router, session, status])
+
+  const handleLogout = async () => {
+    await signOut({ callbackUrl: '/' })
   }
 
-  if (loading) {
+  if (status === 'loading' || !admin) {
     return (
       <div className="flex min-h-[calc(100vh-3.5rem)] items-center justify-center bg-background">
         <div className="flex flex-col items-center gap-3">

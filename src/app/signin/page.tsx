@@ -3,8 +3,11 @@
 import Link from 'next/link'
 import { useState } from 'react'
 import { signIn } from 'next-auth/react'
+import { useSearchParams } from 'next/navigation'
 
 export default function SignInPage() {
+  const searchParams = useSearchParams()
+  const callbackUrl = searchParams.get('callbackUrl') || '/dashboard'
   const [email, setEmail] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [status, setStatus] = useState('')
@@ -23,7 +26,7 @@ export default function SignInPage() {
     setStatus('')
 
     try {
-      await signIn('email', { email, redirect: false })
+      await signIn('email', { email, redirect: false, callbackUrl })
       setStatus('✓ Check your email for the sign-in link')
       setStep('otp')
     } catch (err) {
@@ -37,7 +40,7 @@ export default function SignInPage() {
     setIsLoading(true)
     setError('')
     try {
-      await signIn('google', { callbackUrl: '/dashboard' })
+      await signIn('google', { callbackUrl })
     } catch (err) {
       setError('Google sign-in failed')
     } finally {
@@ -133,6 +136,10 @@ export default function SignInPage() {
           <p className="text-xs text-muted-foreground">
             No account?{' '}
             <Link href="/signup" className="text-primary font-medium hover:underline underline-offset-4">Create one</Link>
+          </p>
+          <p className="text-xs text-muted-foreground">
+            Manager access?{' '}
+            <Link href="/manager/signin" className="text-primary font-medium hover:underline underline-offset-4">Manager sign in</Link>
           </p>
         </div>
       </div>

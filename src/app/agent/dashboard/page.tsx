@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { signOut, useSession } from 'next-auth/react'
 import Link from 'next/link'
 import { ClipboardList, TrendingUp, Users2, DollarSign, MessageSquare, Settings, LogOut, Briefcase } from 'lucide-react'
 
@@ -15,25 +16,31 @@ interface AgentInfo {
 
 export default function AgentDashboard() {
   const [agent, setAgent] = useState<AgentInfo | null>(null)
-  const [loading, setLoading] = useState(true)
+  const { data: session, status } = useSession()
   const router = useRouter()
 
   useEffect(() => {
-    const agentAuth = localStorage.getItem('agentAuth')
-    if (!agentAuth) {
+    if (status === 'unauthenticated') {
       router.push('/agent/signin')
       return
     }
-    setAgent(JSON.parse(agentAuth))
-    setLoading(false)
-  }, [router])
 
-  const handleLogout = () => {
-    localStorage.removeItem('agentAuth')
-    router.push('/')
+    if (status === 'authenticated' && session?.user) {
+      setAgent({
+        agentId: (session.user as any).id ?? '',
+        email: session.user.email ?? '',
+        userCode: (session.user as any).id ?? 'N/A',
+        role: (session.user as any).role ?? 'agent',
+        name: session.user.name ?? undefined,
+      })
+    }
+  }, [router, session, status])
+
+  const handleLogout = async () => {
+    await signOut({ callbackUrl: '/' })
   }
 
-  if (loading) {
+  if (status === 'loading' || !agent) {
     return (
       <div className="flex min-h-[calc(100vh-3.5rem)] items-center justify-center bg-background">
         <div className="flex flex-col items-center gap-3">

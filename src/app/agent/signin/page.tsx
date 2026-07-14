@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import { signIn } from 'next-auth/react'
 
 export default function AgentSignIn() {
   const [email, setEmail] = useState('')
@@ -18,7 +19,7 @@ export default function AgentSignIn() {
     setLoading(true)
 
     try {
-      const response = await fetch('/api/auth/agent-signin', {
+      const response = await fetch('/api/v1/auth/admin/login?role=agent&legacy=agent', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
@@ -31,16 +32,17 @@ export default function AgentSignIn() {
         return
       }
 
-      localStorage.setItem(
-        'agentAuth',
-        JSON.stringify({
-          agentId: data.agent.id,
-          email: data.agent.email,
-          userCode: data.agent.userCode,
-          role: data.agent.role,
-          name: data.agent.name,
-        })
-      )
+      const sessionResult = await signIn('credentials', {
+        email,
+        password,
+        redirect: false,
+        callbackUrl: '/agent/dashboard',
+      })
+
+      if (sessionResult?.error) {
+        setError('Failed to establish session. Please try again.')
+        return
+      }
 
       router.push('/agent/dashboard')
     } catch (err) {
