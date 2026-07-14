@@ -12,7 +12,7 @@ model User {
   userCode      String    @unique
   name          String?
   email         String    @unique
-  role          String    @default("user")  // "user" | "admin" | "agent"
+  role          String    @default("user")  // "user" | "admin" | "manager" | "agent"
   password      String?   // For admin and agent accounts
   tier          String    @default("normal")
   emailVerified DateTime?
@@ -33,6 +33,9 @@ model User {
   subscription  Subscription?
   quota         Quota?
   subscriptionHistory SubscriptionHistory[]
+  roleAssignments UserRole[]
+  trustedDevices TrustedDevice[]
+  auditEvents AuditEvent[]
 }
 
 model Account {
@@ -61,8 +64,18 @@ model Session {
   sessionToken String   @unique
   userId       String
   expires      DateTime
+  createdAt    DateTime @default(now())
+  lastActivityAt DateTime @default(now())
+  ipAddress    String?
+  userAgent    String?
+  revokedAt    DateTime?
+  trustedDeviceId String?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  trustedDevice TrustedDevice? @relation(fields: [trustedDeviceId], references: [id], onDelete: SetNull)
+
+  @@index([userId, revokedAt])
+  @@index([trustedDeviceId])
 }
 
 model VerificationToken {
@@ -80,6 +93,99 @@ model EmailOTP {
   expires   DateTime
   attempts  Int      @default(0)
   createdAt DateTime @default(now())
+}
+
+model Role {
+  id          String           @id @default(cuid())
+  name        String           @unique
+  description String?
+  isSystem    Boolean          @default(true)
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+  permissions RolePermission[]
+  users       UserRole[]
+}
+
+model Permission {
+  id          String           @id @default(cuid())
+  resource    String
+  action      String
+  description String?
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+  roles       RolePermission[]
+
+  @@unique([resource, action])
+  @@index([resource])
+}
+
+model RolePermission {
+  roleId       String
+  permissionId String
+  createdAt    DateTime   @default(now())
+
+  role       Role       @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  permission Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
+
+  @@id([roleId, permissionId])
+  @@index([permissionId])
+}
+
+model UserRole {
+  id        String   @id @default(cuid())
+  userId    String
+  roleId    String
+  createdAt DateTime @default(now())
+  expiresAt DateTime?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role Role @relation(fields: [roleId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, roleId])
+  @@index([roleId])
+}
+
+model TrustedDevice {
+  id          String     @id @default(cuid())
+  userId      String
+  deviceId    String     @unique
+  tokenHash   String     @unique
+  deviceName  String?
+  ipAddress   String?
+  userAgent   String?
+  lastUsedAt  DateTime?
+  expiresAt   DateTime
+  revokedAt   DateTime?
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  sessions Session[]
+
+  @@index([userId, revokedAt])
+  @@index([expiresAt])
+}
+
+model AuditEvent {
+  id             String   @id @default(cuid())
+  actorUserId    String?
+  actorRole      String?
+  eventType      String
+  entityType     String?
+  entityId       String?
+  previousValue  Json?
+  newValue       Json?
+  metadata       Json?
+  ipAddress      String?
+  userAgent      String?
+  createdAt      DateTime @default(now())
+
+  actorUser User? @relation(fields: [actorUserId], references: [id], onDelete: SetNull)
+
+  @@index([actorUserId, createdAt])
+  @@index([eventType, createdAt])
+  @@index([entityType, entityId])
+  @@index([createdAt])
 }
 
 model Service {

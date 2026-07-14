@@ -159,6 +159,46 @@ DNS FINALIZATION
   - https://dhyanshivindia.in/ -> HTTP 200
   - https://dhyanshivindia.in/api/services -> HTTP 200
 
+2026-07-13 Phase 1 Milestone 1 - Schema Foundation
+- Scope completed: Prisma schema foundation only for RBAC, permission mapping, trusted-device/session metadata, and immutable audit events.
+- Files modified:
+  - prisma/schema.prisma
+  - MIGRATION_HISTORY.txt
+  - PROJECT_MEMORY.md
+- Files created:
+  - prisma/migrations/20260713000000_migration_a_rbac_permission_foundation/migration.sql
+  - prisma/migrations/20260713000001_migration_b_audit_event_core/migration.sql
+- Additional repository corrections:
+  - Added prisma/migrations/migration_lock.toml for authoritative Prisma migration history metadata.
+  - Rebaselined prisma/migrations/20260703000000_init_supabase/migration.sql to match the committed pre-Milestone 1 schema.
+  - Rebaselined prisma/migrations/20260711000000_add_onboarding_fields/migration.sql as an intentional no-op because its schema was folded into the corrected baseline migration.
+  - Updated .env examples to document Supabase session-mode pooler (5432) for Prisma CLI and transaction pooler (6543) for runtime traffic.
+- Database history synchronized safely on the existing Supabase project using Prisma migrate resolve for the two historical pre-Milestone 1 migrations.
+- Validation completed successfully:
+  - npx prisma validate
+  - npx prisma generate
+  - npx tsc --noEmit
+  - npm run lint
+  - npm run build
+- Root cause fixed: direct Supabase host in DATABASE_URL was IPv6-only for this environment. Prisma CLI migration traffic now targets the Supabase session-mode pooler on port 5432.
+- Final Milestone 1 verification result:
+  - Prisma can reach the database normally.
+  - Prisma migration history and prisma/schema.prisma are synchronized.
+  - Remaining unapplied migrations are the two Milestone 1 migrations only.
+
+2026-07-14 Phase 1 Milestone 9 - Dashboard and Settings Security Integration
+- Scope completed: frontend security integration only for admin dashboard, agent dashboard, and settings page.
+- Removed dashboard localStorage-based client trust checks and switched to session-authoritative handling.
+- Settings page now consumes existing v1 auth APIs for:
+  - POST /api/v1/auth/session/logout-all
+  - GET /api/v1/auth/trusted-devices/list
+  - POST /api/v1/auth/trusted-devices/revoke
+- No database schema or migration changes were made.
+- Validation completed successfully:
+  - npx tsc --noEmit
+  - npm run lint
+  - npm run build
+
 
 
 
